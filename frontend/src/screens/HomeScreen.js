@@ -41,16 +41,11 @@ const HomeScreen = ({ match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <h1 className="text-8xl font-bold font-serif text-blue-500">
-            HelloThere
-          </h1>
-          <Row>
-            {products.map((product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))}
-          </Row>
+          {products.map((product) => (
+            <Row key={product._id}>
+              <Product product={product} className="self-stretch mb-3" />
+            </Row>
+          ))}
           <Paginate
             pages={pages}
             page={page}
