@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -34,7 +34,7 @@ const HomeScreen = ({ match }) => {
           Go Back
         </Link>
       )}
-      <h1>Latest Products</h1>
+      <h1 className="text-[1.5em] font-bold mt-1 mb-1">Latest Products</h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -42,7 +42,7 @@ const HomeScreen = ({ match }) => {
       ) : (
         <>
           {products.map((product) => (
-            <Row key={product._id}>
+            <Row key={product._id} className="items-center justify-center">
               <Product product={product} className="self-stretch mb-3" />
             </Row>
           ))}
