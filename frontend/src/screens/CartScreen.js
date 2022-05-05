@@ -41,7 +41,7 @@ const CartScreen = ({ match, location, history }) => {
           <ListGroup variant='flush'>
             {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
-                <Row>
+                <Row className='bg-slate-100 p-2'>
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
@@ -97,7 +97,7 @@ const CartScreen = ({ match, location, history }) => {
             <ListGroup.Item>
               <Button
                 type='button'
-                className='btn-block'
+                className='bg-black hover:bg-slate-800 w-full'
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >

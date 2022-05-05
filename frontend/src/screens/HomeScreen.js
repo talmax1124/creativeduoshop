@@ -10,6 +10,8 @@ import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 import { listProducts } from "../actions/productActions";
 
+import { Container } from "react-bootstrap";
+
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
 
@@ -27,32 +29,36 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
-      {!keyword ? (
-        <ProductCarousel />
-      ) : (
-        <Link to="/" className="btn btn-light">
-          Go Back
-        </Link>
-      )}
-      <h1 className="text-[1.5em] font-bold mt-1 mb-1">Latest Products</h1>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
-      ) : (
-        <>
-          {products.map((product) => (
-            <Row key={product._id} className="items-center justify-center">
-              <Product product={product} className="self-stretch mb-3" />
-            </Row>
-          ))}
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={keyword ? keyword : ""}
-          />
-        </>
-      )}
+      <main className="py-3">
+        <Container>
+          {!keyword ? (
+            <ProductCarousel />
+          ) : (
+            <Link to="/" className="btn btn-light">
+              Go Back
+            </Link>
+          )}
+          <h1 className="text-[1.5em] font-bold mt-1 mb-1">Latest Products</h1>
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <>
+              {products.map((product) => (
+                <Row key={product._id} className="items-center justify-center">
+                  <Product product={product} className="self-stretch mb-3" />
+                </Row>
+              ))}
+              <Paginate
+                pages={pages}
+                page={page}
+                keyword={keyword ? keyword : ""}
+              />
+            </>
+          )}
+        </Container>
+      </main>
     </>
   );
 };

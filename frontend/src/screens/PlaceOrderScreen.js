@@ -26,11 +26,9 @@ const PlaceOrderScreen = ({ history }) => {
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100)
-  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
+  cart.taxPrice = addDecimals(Number((0.075 * cart.itemsPrice).toFixed(2)))
   cart.totalPrice = (
     Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
     Number(cart.taxPrice)
   ).toFixed(2)
 
@@ -129,12 +127,6 @@ const PlaceOrderScreen = ({ history }) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
                   <Col>Tax</Col>
                   <Col>${cart.taxPrice}</Col>
                 </Row>
@@ -151,7 +143,7 @@ const PlaceOrderScreen = ({ history }) => {
               <ListGroup.Item>
                 <Button
                   type='button'
-                  className='btn-block'
+                  className='bg-black hover:bg-slate-800 w-full'
                   disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >
