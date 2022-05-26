@@ -18,6 +18,11 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 
+// Pages for Footer
+import returnpolicy from "./pages/returnpolicy";
+import privacypolicy from "./pages/privacypolicy";
+import termsandconditions from "./pages/termsandconditions";
+
 import { Container } from "react-bootstrap";
 
 const App = () => {
@@ -59,6 +64,13 @@ const App = () => {
             component={HomeScreen}
             exact
           />
+
+          {/* Footer Pages */}
+          <Route path="/returnpolicy" component={returnpolicy} />
+          <Route path="/privacypolicy" component={privacypolicy} />
+          <Route path="/termsandconditions" component={termsandconditions} />
+
+          
         </Container>
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />

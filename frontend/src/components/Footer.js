@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link } from "react-router-dom";
 // import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => {
@@ -19,7 +20,10 @@ const Footer = () => {
             <p className="font-medium">
               <span className="text-xs tracking-widest uppercase">Call</span>
 
-              <a className="block text-2xl sm:text-3xl  hover:text-slate-100" href="">
+              <a
+                className="block text-2xl sm:text-3xl  hover:text-slate-100"
+                href=""
+              >
                 (407)536-8743
               </a>
             </p>
@@ -190,21 +194,21 @@ const Footer = () => {
         <div className="pt-12 mt-12 border-t border-gray-800">
           <div className="text-sm text-gray-300 sm:items-center sm:justify-between sm:flex">
             <div className="flex space-x-3">
-              <a className="hover:text-slate-100" href="">
+              <Link className="hover:text-slate-100" to="/privacypolicy">
                 {" "}
                 Privacy Policy{" "}
-              </a>
-              <a className="hover:text-slate-100" href="">
+              </Link>
+              <Link className="hover:text-slate-100" to="/termsandconditions">
                 {" "}
                 Terms & Conditions{" "}
-              </a>
-              <a className="hover:text-slate-100" href="">
+              </Link>
+              <Link className="hover:text-slate-100" to="/returnpolicy">
                 {" "}
                 Returns Policy{" "}
-              </a>
+              </Link>
             </div>
 
-            <p className="mt-4 sm:mt-0">&copy; 2022 Company Name.</p>
+            <p className="mt-4 sm:mt-0">&copy; 2022 Creative Duo LLC.</p>
           </div>
 
           <p className="mt-8 text-xs text-gray-500">
