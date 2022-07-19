@@ -29,6 +29,16 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
+      <div className="Hero bg-blue-600 rounded-sm flex">
+        <div className="Hero-body justify-center items-center text-center">
+          <h1 className="mb-[.5em] text-white font-bold text-[3.2em]">
+            Creative Duo LLC
+          </h1>
+          <p className="text-slate-100 font-semibold uppercase">
+            Quality Products at affordable prices
+          </p>
+        </div>
+      </div>
       <main className="py-3">
         <Container>
           {!keyword ? (

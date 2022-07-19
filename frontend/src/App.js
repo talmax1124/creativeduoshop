@@ -29,7 +29,6 @@ const App = () => {
   return (
     <Router>
       <Header />
-
       <main className="py-3">
         <Route path="/" component={HomeScreen} exact />
         <Container>
@@ -69,8 +68,6 @@ const App = () => {
           <Route path="/returnpolicy" component={returnpolicy} />
           <Route path="/privacypolicy" component={privacypolicy} />
           <Route path="/termsandconditions" component={termsandconditions} />
-
-          
         </Container>
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
