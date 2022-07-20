@@ -9,7 +9,6 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
-import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import UserListScreen from "./screens/UserListScreen";
@@ -23,6 +22,9 @@ import returnpolicy from "./pages/returnpolicy";
 import privacypolicy from "./pages/privacypolicy";
 import termsandconditions from "./pages/termsandconditions";
 
+// Stripe
+import StripeSuccess from "./screens/StripeSuccess";
+
 import { Container } from "react-bootstrap";
 
 const App = () => {
@@ -35,7 +37,6 @@ const App = () => {
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/shipping" component={ShippingScreen} />
-          <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
 
           <Route path="/product/:id" component={ProductScreen} />
@@ -63,6 +64,8 @@ const App = () => {
             component={HomeScreen}
             exact
           />
+
+          <Route path="/success/" component={StripeSuccess} />
 
           {/* Footer Pages */}
           <Route path="/returnpolicy" component={returnpolicy} />

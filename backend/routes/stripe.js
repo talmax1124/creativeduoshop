@@ -1,9 +1,10 @@
-const express = require("express");
-const Stripe = require("stripe");
+import express from "express";
+import Stripe from "stripe";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+dotenv.config();
 
-const stripe = Stripe("pk_test_51GnfhfImEZowwqFqYp0LcwDOsO5vnfbUiTbkLLnCDzgi4ySL1iphmPRsjvBzkx7ggXs9HAVNIOLfEdlomJha1ADr002cZbEiHO");
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ router.post("/create-checkout-session", async (req, res) => {
   const customer = await stripe.customers.create({
     metadata: {
       userId: req.body.userId,
+      email: req.body.email,
       cart: JSON.stringify(req.body.cartItems),
     },
   });
@@ -21,65 +23,18 @@ router.post("/create-checkout-session", async (req, res) => {
         currency: "usd",
         product_data: {
           name: item.name,
-          images: [item.image],
+          // images: [item.image],
         },
         unit_amount: item.price * 100,
       },
-      quantity: item.cartQuantity,
+      quantity: item.qty,
     };
   });
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     shipping_address_collection: {
-      allowed_countries: ["US", "CA", "KE"],
-    },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: 0,
-            currency: "usd",
-          },
-          display_name: "Free shipping",
-          // Delivers between 5-7 business days
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 5,
-            },
-            maximum: {
-              unit: "business_day",
-              value: 7,
-            },
-          },
-        },
-      },
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: 1500,
-            currency: "usd",
-          },
-          display_name: "Next day air",
-          // Delivers in exactly 1 business day
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 1,
-            },
-            maximum: {
-              unit: "business_day",
-              value: 1,
-            },
-          },
-        },
-      },
-    ],
-    phone_number_collection: {
-      enabled: true,
+      allowed_countries: ["US"],
     },
     line_items,
     mode: "payment",
@@ -89,7 +44,8 @@ router.post("/create-checkout-session", async (req, res) => {
   });
 
   // res.redirect(303, session.url);
+  // res.send({url: `${process.env.CLIENT_URL}/success`});
   res.send({ url: session.url });
 });
 
-module.exports = router;
+export default router;

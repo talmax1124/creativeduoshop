@@ -71,7 +71,11 @@ const ProductScreen = ({ history, match }) => {
     <>
       <main className="py-3">
         <Container>
-          <Link className="btn btn-light my-3" to="/">
+          <Link
+            className="btn bg-black w-1/8 text-white
+                      hover:bg-gray-700 my-3"
+            to="/"
+          >
             Go Back
           </Link>
           {loading ? (
