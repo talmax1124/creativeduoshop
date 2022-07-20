@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,8 @@ import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 import { listProducts } from "../actions/productActions";
+import Testimonials from "../components/Testimonials";
+import Hero from "../components/Hero";
 
 import { Container } from "react-bootstrap";
 
@@ -29,26 +32,20 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
-      <div className="Hero bg-blue-600 rounded-sm flex">
-        <div className="Hero-body justify-center items-center text-center">
-          <h1 className="mb-[.5em] text-white font-bold text-[3.2em]">
-            Creative Duo LLC
-          </h1>
-          <p className="text-slate-100 font-semibold uppercase">
-            Quality Products at affordable prices
-          </p>
-        </div>
-      </div>
+      <Hero/>
       <main className="py-3">
         <Container>
           {!keyword ? (
             <ProductCarousel />
           ) : (
-            <Link to="/"  className="btn bg-black w-full text-white hover:bg-gray-700">
+            <Link
+              to="/"
+              className="btn bg-black w-full text-white hover:bg-gray-700"
+            >
               Go Back
             </Link>
           )}
-          <h1 className="text-[1.5em] font-bold mt-1 mb-1">Latest Products</h1>
+          <h1 className="text-[2em] font-bold font-sans mt-4 mb-4">Latest Products</h1>
           {loading ? (
             <Loader />
           ) : error ? (
@@ -68,6 +65,7 @@ const HomeScreen = ({ match }) => {
             </>
           )}
         </Container>
+        {!keyword ? <Testimonials /> : <></>}
       </main>
     </>
   );

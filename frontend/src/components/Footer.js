@@ -28,11 +28,6 @@ const Footer = () => {
               </a>
             </p>
 
-            <ul className="mt-8 space-y-2 text-sm">
-              <li>Monday to Friday: 2pm - 9pm</li>
-              <li>Weekend: 10am - 9pm</li>
-            </ul>
-
             <div className="flex mt-16 space-x-3">
               <a
                 className="p-2 border rounded-full border-white/25 hover:text-slate-100"
@@ -210,16 +205,6 @@ const Footer = () => {
 
             <p className="mt-4 sm:mt-0">&copy; 2022 Creative Duo LLC.</p>
           </div>
-
-          <p className="mt-8 text-xs text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            mollitia quia quod repellendus. Porro harum, odio dolore
-            perspiciatis praesentium provident esse consequatur quibusdam
-            aperiam, cupiditate omnis modi in quasi? In, maxime odio vel
-            repellat sed earum? Debitis quaerat facilis animi. Odio natus
-            nostrum laboriosam impedit magnam praesentium asperiores consectetur
-            ipsum.
-          </p>
         </div>
       </div>
     </footer>

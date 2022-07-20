@@ -92,17 +92,23 @@ const ProductScreen = ({ history, match }) => {
                 <Col md={3}>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      <h3>{product.name}</h3>
+                      <h3 className="font-medium font-sans text-xl">
+                        {product.name}
+                      </h3>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <Rating
                         value={product.rating}
-                        text={`${product.numReviews} reviews`}
+                        text={`${product.numReviews} review(s)`}
                       />
                     </ListGroup.Item>
-                    <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
                     <ListGroup.Item>
-                      Description: {product.description}
+                      <span className="font-bold">Price:</span>{" "}
+                      <span className="font-light">${product.price}</span>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <span className="font-bold">Description:</span>{" "}
+                      <span className="font-light">{product.description}</span>
                     </ListGroup.Item>
                   </ListGroup>
                 </Col>
@@ -122,9 +128,14 @@ const ProductScreen = ({ history, match }) => {
                         <Row>
                           <Col>Status:</Col>
                           <Col>
-                            {product.countInStock > 0
+                            {product.countInStock > 0 ? (
+                              <div className="flex justify-center items-center p-2 bg-teal-300 rounded"><span className="font-medium">In stock</span></div>
+                            ) : (
+                              <div className="flex justify-center items-center p-2 bg-red-300 rounded"><span className="font-medium text-xs">Out of Stock</span></div>
+                            )}
+                            {/* {product.countInStock > 0
                               ? "In Stock"
-                              : "Out Of Stock"}
+                              : "Out Of Stock"} */}
                           </Col>
                         </Row>
                       </ListGroup.Item>
@@ -168,19 +179,91 @@ const ProductScreen = ({ history, match }) => {
               </Row>
               <Row>
                 <Col md={6}>
-                  <h2>Reviews</h2>
+                  <h2 className="font-medium font-sans text-[2em] mt-2">
+                    Reviews
+                  </h2>
                   {product.reviews.length === 0 && (
                     <Message>No Reviews</Message>
                   )}
-                  <ListGroup variant="flush">
-                    {product.reviews.map((review) => (
-                      <ListGroup.Item key={review._id}>
-                        <strong>{review.name}</strong>
-                        <Rating value={review.rating} />
-                        <p>{review.createdAt.substring(0, 10)}</p>
-                        <p>{review.comment}</p>
-                      </ListGroup.Item>
-                    ))}
+                  <div class="flex mt-3 reviews">
+                    <div className="left-rev">
+                      <h2 className="font-semibold mb-3">
+                        Write a Product Review
+                      </h2>
+                      {successProductReview && (
+                        <Message variant="success">
+                          Review submitted successfully
+                        </Message>
+                      )}
+                      {loadingProductReview && <Loader />}
+                      {errorProductReview && (
+                        <Message variant="danger">{errorProductReview}</Message>
+                      )}
+                      {userInfo ? (
+                        <Form onSubmit={submitHandler}>
+                          <Form.Group controlId="rating">
+                            <Form.Control
+                              as="select"
+                              value={rating}
+                              onChange={(e) => setRating(e.target.value)}
+                            >
+                              <option value="">Select...</option>
+                              <option value="1">1 - ⭐️ Poorly </option>
+                              <option value="2">2 - ⭐️⭐️ Fair </option>
+                              <option value="3">3 - ⭐️⭐️⭐️ Good </option>
+                              <option value="4">
+                                4 - ⭐️⭐️⭐️⭐️ Very Good{" "}
+                              </option>
+                              <option value="5">
+                                5 - ⭐️⭐️⭐️⭐️⭐️ Excellent{" "}
+                              </option>
+                            </Form.Control>
+                          </Form.Group>
+                          <Form.Group controlId="comment">
+                            <Form.Label>Comment</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              row="3"
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
+                            ></Form.Control>
+                          </Form.Group>
+                          <Button
+                            disabled={loadingProductReview}
+                            type="submit"
+                            className="bg-black w-full hover:bg-slate-700"
+                          >
+                            Submit Your Review
+                          </Button>
+                        </Form>
+                      ) : (
+                        <Message>
+                          Please <Link to="/login">sign in</Link> to write a
+                          review{" "}
+                        </Message>
+                      )}
+                    </div>
+                    <div className="right-rev">
+                      {product.reviews.map((review) => (
+                        <div
+                          key={review._id}
+                          className="w-full revcard bg-slate-100 p-4 rounded"
+                        >
+                          <strong className="font-bold mb-1 text-[1.1em]">
+                            {review.name}
+                          </strong>
+                          <Rating value={review.rating} className="mb-1" />
+                          <p className="mb-1">
+                            {review.createdAt.substring(0, 10)}
+                          </p>
+                          <p className="mt-2 mb-1 font-medium text-[1.15em]">
+                            {review.comment}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* <ListGroup variant="flush">
                     <ListGroup.Item>
                       <h2>Write a Customer Review</h2>
                       {successProductReview && (
@@ -233,7 +316,7 @@ const ProductScreen = ({ history, match }) => {
                         </Message>
                       )}
                     </ListGroup.Item>
-                  </ListGroup>
+                  </ListGroup> */}
                 </Col>
               </Row>
             </>
