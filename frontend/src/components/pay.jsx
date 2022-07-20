@@ -6,7 +6,7 @@ const PayButton = ({ cartItems }) => {
 
   const handleCheckout = () => {
     axios
-      .post("http://localhost:3000/api/stripe/create-checkout-session", {
+      .post(`${process.env.CLIENT_URL}/api/stripe/create-checkout-session`, {
         cartItems,
         userId: userInfo._id,
         email: userInfo.email,
@@ -21,7 +21,10 @@ const PayButton = ({ cartItems }) => {
 
   return (
     <>
-      <button onClick={() => handleCheckout()}  className="btn bg-black w-full text-white hover:bg-gray-700">
+      <button
+        onClick={() => handleCheckout()}
+        className="btn bg-black w-full text-white hover:bg-gray-700"
+      >
         Check out
       </button>
     </>
