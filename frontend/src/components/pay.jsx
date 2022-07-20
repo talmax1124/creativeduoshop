@@ -5,18 +5,35 @@ const PayButton = ({ cartItems }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleCheckout = () => {
-    axios
-      .post(`${process.env.CLIENT_URL}/api/stripe/create-checkout-session`, {
-        cartItems,
-        userId: userInfo._id,
-        email: userInfo.email,
-      })
-      .then((response) => {
-        if (response.data.url) {
-          window.location.href = response.data.url;
-        }
-      })
-      .catch((err) => console.log(err.message));
+    if (process.env.NODE_ENV === "development") {
+      axios
+        .post("http://localhost:3000/api/stripe/create-checkout-session", {
+          cartItems,
+          userId: userInfo._id,
+          email: userInfo.email,
+        })
+        .then((response) => {
+          if (response.data.url) {
+            window.location.href = response.data.url;
+          }
+        })
+        .catch((err) => console.log(err.message));
+    }
+
+    if (process.env.NODE_ENV === "production") {
+      axios
+        .post("https://creativeduo.net/api/stripe/create-checkout-session", {
+          cartItems,
+          userId: userInfo._id,
+          email: userInfo.email,
+        })
+        .then((response) => {
+          if (response.data.url) {
+            window.location.href = response.data.url;
+          }
+        })
+        .catch((err) => console.log(err.message));
+    }
   };
 
   return (
