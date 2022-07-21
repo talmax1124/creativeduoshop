@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const reviewSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
+    profileImage: { type: String },
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
     user: {
@@ -15,11 +16,6 @@ const reviewSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
-const colorVariations = mongoose.Schema({
-  color: { type: String, required: true },
-  name: { type: String, required: false },
-});
 
 const productSchema = mongoose.Schema(
   {
@@ -36,19 +32,25 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    additionalimageone: {
+      type: String,
+    },
+    additionalimagetwo: {
+      type: String,
+    },
+    additionalimagethree: {
+      type: String,
+    },
     brand: {
       type: String,
       required: true,
     },
     category: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
-      required: true,
     },
-    // colors: [colorVariations],
     reviews: [reviewSchema],
     rating: {
       type: Number,
@@ -69,6 +71,15 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    productVideo: {
+      type: String,
+    },
+    productTutorial: {
+      type: String,
+    },
+    productImportantInformation: {
+      type: String,
     },
   },
   {

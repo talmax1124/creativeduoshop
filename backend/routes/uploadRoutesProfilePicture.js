@@ -19,8 +19,8 @@ cloud.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloud,
   params: {
-    folder: "cduoshoppic", // any desirable name
-    transformation: "media_lib_thumb", // the name you saved in transformation presets
+    folder: "cduoshop-profilepictures", // any desirable name
+    transformation: "profilepicture", // the name you saved in transformation presets
     public_id: (req, file) =>
       `${file.originalname.split(".")[0]}-${Date.now()}`,
   },
@@ -42,7 +42,7 @@ function checkFileType(file, cb) {
 const upload = multer({
   storage,
 
-  fileFilter: function (req, file, cb) {
+  fileFilter: function(req, file, cb) {
     checkFileType(file, cb);
   },
 });

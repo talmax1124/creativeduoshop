@@ -5,7 +5,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { login } from "../actions/userActions";
+import { login, getGoogleUserInfo } from "../actions/userActions";
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
@@ -23,6 +23,22 @@ const LoginScreen = ({ location, history }) => {
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
+
+  useEffect(() => {
+    if (!userInfo) {
+      dispatch(getGoogleUserInfo());
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  const signInWithGoogleHandler = (e) => {
+    e.preventDefault();
+    const googleSignInEndPoint =
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:7500/api/auth/google?redirect=${redirect}`
+        : `/api/auth/google?redirect=${redirect}`;
+    window.location.href = googleSignInEndPoint;
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -45,7 +61,9 @@ const LoginScreen = ({ location, history }) => {
           {loading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="email">
-              <Form.Label className="text-medium text-1xl font-medium">Email Address</Form.Label>
+              <Form.Label className="text-medium text-1xl font-medium">
+                Email Address
+              </Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
@@ -55,7 +73,9 @@ const LoginScreen = ({ location, history }) => {
             </Form.Group>
 
             <Form.Group controlId="password">
-              <Form.Label className="text-medium text-1xl font-medium">Password</Form.Label>
+              <Form.Label className="text-medium text-1xl font-medium">
+                Password
+              </Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter password"
@@ -64,7 +84,10 @@ const LoginScreen = ({ location, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" className="bg-black hover:bg-slate-800 w-full">
+            <Button
+              type="submit"
+              className="bg-black hover:bg-slate-800 w-full"
+            >
               Sign In
             </Button>
           </Form>
@@ -78,7 +101,17 @@ const LoginScreen = ({ location, history }) => {
               >
                 Register
               </Link>
+              <Link to="/forgot-password" variant="body2">
+                Forgot password?
+              </Link>
             </Col>
+            <button onClick={signInWithGoogleHandler} className="signningoogle">
+              <img
+                src="https://img.icons8.com/fluent/48/000000/google-logo.png"
+                height="auto"
+                alt=""
+              />
+            </button>
           </Row>
         </div>
       </div>

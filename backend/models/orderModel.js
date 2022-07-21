@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema(
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        countInStock: { type: Number, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
@@ -21,16 +22,26 @@ const orderSchema = mongoose.Schema(
       },
     ],
 
-    paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
+    orderNotes: {
+      type: String,
     },
+
+
     totalPrice: {
       type: Number,
       required: true,
       default: 0.0,
+    },
+
+    isPacked: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isDispatched: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     isDelivered: {
       type: Boolean,
@@ -39,6 +50,43 @@ const orderSchema = mongoose.Schema(
     },
     deliveredAt: {
       type: Date,
+    },
+    cdnURL: {
+      type: String,
+    },
+    emailNotifier: {
+      type: String,
+    },
+    orderStatus: {
+      type: String,
+    },
+
+    countInStock: { type: Number },
+
+    fileUpload: {
+      type: String,
+    },
+
+    packedAt: {
+      type: String,
+      type: Date,
+    },
+    emailNotifier: {
+      dispatchedAt: {
+        type: String,
+        type: Date,
+      },
+    },
+
+    isCancelled: {
+      type: Boolean,
+      default: false,
+    },
+    orderStatus: {
+      type: String,
+      cancelledAt: {
+        type: Date,
+      },
     },
   },
   {

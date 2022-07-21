@@ -4,7 +4,8 @@ import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listOrders } from "../actions/orderActions";
+import { listOrders, deleteOrder } from "../actions/orderActions";
+import moment from "moment";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,18 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
 
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      dispatch(deleteOrder(id));
+      deleteWindow();
+    }
+  };
+
+  function deleteWindow() {
+    window.location.reload();
+    alert("Order Has Been Deleted");
+  }
+
   return (
     <>
       <h1>Orders</h1>
@@ -39,6 +52,9 @@ const OrderListScreen = ({ history }) => {
               <th>DATE</th>
               {/* <th>TOTAL</th> */}
               <th>DELIVERED</th>
+              <th>PACKED</th>
+              <th>DISPATCHED</th>
+              <th>CANCELLED</th>
               <th></th>
             </tr>
           </thead>
@@ -57,9 +73,38 @@ const OrderListScreen = ({ history }) => {
                   )}
                 </td>
                 <td>
+                  {order.isPacked ? (
+                    order.packedAt.substring(0, 10)
+                  ) : (
+                    <i className="fas fa-times" style={{ color: "red" }}></i>
+                  )}
+                </td>
+                <td>
+                  {order.isDispatched ? (
+                    <i className="fas fa-check" style={{ color: "red" }}></i>
+                  ) : (
+                    <i className="fas fa-times" style={{ color: "red" }}></i>
+                  )}
+                </td>
+                <td>
+                  {order.isCancelled ? (
+                    moment(order.cancelledAt).format("LLL")
+                  ) : (
+                    <i className="fas fa-times" style={{ color: "red" }}></i>
+                  )}
+                </td>
+
+                <td>
                   <LinkContainer to={`/order/${order._id}`}>
-                    <Button  className="btn bg-black w-full text-white hover:bg-gray-700">
+                    <Button className="btn-sm bg-black text-white hover:bg-gray-700">
                       Details
+                    </Button>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(order._id)}
+                    >
+                      <i className="fas fa-trash"></i>Delete
                     </Button>
                   </LinkContainer>
                 </td>

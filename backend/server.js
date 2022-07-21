@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
 import secure from "ssl-express-www";
+import session from "express-session";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 
@@ -12,7 +13,15 @@ import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 
+// Upload Route for Profile Picture
+import uploadRoutesProfilePicture from "./routes/uploadRoutesProfilePicture.js";
+
+// Stripe API
 import stripe from "./routes/stripe.js";
+
+// Google
+import authRoutes from "./routes/authRoutes.js";
+import passport from "./config/passport.js";
 
 dotenv.config();
 
@@ -30,15 +39,26 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(express.json());
 
+// Session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/stripe", stripe);
-
-app.get("/api/config/paypal", (req, res) =>
-  res.send(process.env.PAYPAL_CLIENT_ID)
-);
+app.use("/api/uploadprofilepicture", uploadRoutesProfilePicture);
+app.use("/api/auth", authRoutes);
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));

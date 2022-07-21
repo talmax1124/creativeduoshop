@@ -2,6 +2,8 @@ import axios from 'axios'
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
+  CART_SAVE_ORDERNOTES,
+  CART_SAVE_FILEUPLOAD
 } from '../constants/cartConstants'
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
@@ -30,4 +32,24 @@ export const removeFromCart = (id) => (dispatch, getState) => {
 
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
+
+export const saveOrderNotesMethod = (data) => (dispatch) => {
+  dispatch({
+    type: CART_SAVE_ORDERNOTES,
+    payload: data,
+  });
+
+  
+  localStorage.setItem("saveOrderNotesMethod", JSON.stringify(data));
+};
+
+export const saveFileUploadMethod = (data) => (dispatch) => {
+  dispatch({
+    type: CART_SAVE_FILEUPLOAD,
+    payload: data,
+  });
+
+  
+  localStorage.setItem("saveFileUploadMethod", JSON.stringify(data));
+};
 
