@@ -63,12 +63,12 @@ const createProduct = asyncHandler(async (req, res) => {
     price: 0,
     user: req.user._id,
     image: "/images/sample.jpg",
-    brand: "Sample brand",
-    category: "Sample category",
-    countInStock: 0,
+    brand: "Creative Duo LLC",
+    category: "Handmade",
+    countInStock: 20,
     numReviews: 0,
     description: "Sample description",
-    colors: ["Sample color"],
+    // colors: ["Sample color"],
   });
 
   const createdProduct = await product.save();

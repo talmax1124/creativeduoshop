@@ -12,6 +12,7 @@ import Meta from "../components/Meta";
 import { listProducts } from "../actions/productActions";
 import Testimonials from "../components/Testimonials";
 import Hero from "../components/Hero";
+import Map from "../components/Map";
 
 import { Container } from "react-bootstrap";
 
@@ -32,11 +33,16 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
-      <Hero/>
+      <Hero />
       <main className="py-3">
         <Container>
           {!keyword ? (
-            <ProductCarousel />
+            <>
+              <h1 className="text-[2em] font-bold font-sans mt-4 mb-4">
+                Our Most Popular Products
+              </h1>
+              <ProductCarousel />
+            </>
           ) : (
             <Link
               to="/"
@@ -45,7 +51,9 @@ const HomeScreen = ({ match }) => {
               Go Back
             </Link>
           )}
-          <h1 className="text-[2em] font-bold font-sans mt-4 mb-4">Latest Products</h1>
+          <h1 className="text-[2em] font-bold font-sans mt-4 mb-4">
+            Latest Products
+          </h1>
           {loading ? (
             <Loader />
           ) : error ? (
@@ -65,7 +73,14 @@ const HomeScreen = ({ match }) => {
             </>
           )}
         </Container>
-        {!keyword ? <Testimonials /> : <></>}
+        {!keyword ? (
+          <>
+            <Map />
+            <Testimonials />
+          </>
+        ) : (
+          <></>
+        )}
       </main>
     </>
   );

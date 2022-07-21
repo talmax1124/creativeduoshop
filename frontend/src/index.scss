@@ -12,6 +12,10 @@ main {
   min-height: 80vh;
 }
 
+.accordion-content {
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
 .rating span {
   margin: 0.1rem;
 }
@@ -35,7 +39,7 @@ main {
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 999px) {
   .reviews {
     display: flex;
     width: 100%;
@@ -54,6 +58,28 @@ main {
       width: 100%;
       margin: 1.2em 0;
     }
+  }
+  #hi {
+    display: none;
+  }
+  #hii {
+    display: block;
+  }
+  #hbuttons {
+    width: 100%;
+    margin: 0.5em 0;
+  }
+  #htit {
+    font-size: 3em;
+  }
+}
+
+@media (min-width: 1005px) {
+  #hi {
+    display: block;
+  }
+  #hii {
+    display: none;
   }
 }
 

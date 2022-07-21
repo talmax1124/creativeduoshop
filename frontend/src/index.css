@@ -9,6 +9,11 @@ main {
   min-height: 80vh;
 }
 
+.accordion-content {
+  -webkit-transition: max-height 0.3s ease-out, padding 0.3s ease;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
 .rating span {
   margin: 0.1rem;
 }
@@ -38,7 +43,7 @@ main {
   margin: 1em 0.5px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 999px) {
   .reviews {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -63,6 +68,28 @@ main {
   .reviews .revcard {
     width: 100%;
     margin: 1.2em 0;
+  }
+  #hi {
+    display: none;
+  }
+  #hii {
+    display: block;
+  }
+  #hbuttons {
+    width: 100%;
+    margin: 0.5em 0;
+  }
+  #htit {
+    font-size: 3em;
+  }
+}
+
+@media (min-width: 1005px) {
+  #hi {
+    display: block;
+  }
+  #hii {
+    display: none;
   }
 }
 

@@ -95,12 +95,12 @@ const ProductEditScreen = ({ match, history }) => {
     <>
       <Link
         to="/admin/productlist"
-        className="btn bg-black w-full text-white hover:bg-gray-700 my-3"
+        className="btn bg-black w-1/4 text-white hover:bg-gray-700 my-3 mb-2"
       >
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Product</h1>
+        <h1 className="font-medium mb-2 text-2xl">Edit Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
@@ -186,8 +186,11 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" variant="primary">
-              Update
+            <Button
+              type="submit"
+              className="btn bg-black w-1/4 text-white hover:bg-gray-700 my-3 mb-2"
+            >
+              Update / Create
             </Button>
           </Form>
         )}

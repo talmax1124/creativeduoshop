@@ -48,7 +48,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    colors: [colorVariations],
+    // colors: [colorVariations],
     reviews: [reviewSchema],
     rating: {
       type: Number,

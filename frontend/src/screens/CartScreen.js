@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../actions/cartActions";
+import PayButton from "../components/pay";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -33,14 +34,13 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id));
   };
 
-  const checkoutHandler = () => {
-    history.push("/login?redirect=shipping");
-  };
-
   return (
     <Row>
       <Col md={8}>
-        <h1>Shopping Cart</h1>
+        <h1 class=" text-black text-2xl font-medium tracking-tight leading-none md:text-4xl xl:text-6xl mb-1 ">
+          Shopping Cart
+        </h1>
+        <hr className="mb-2" />
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to="/">Go Back</Link>
@@ -49,14 +49,21 @@ const CartScreen = ({ match, location, history }) => {
           <ListGroup variant="flush">
             {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
-                <Row className="bg-slate-100 p-2">
+                <Row className="bg-gray-100 p-2 rounded flex items-center justify-between">
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    <Link
+                      to={`/product/${item.product}`}
+                      className="font-light"
+                    >
+                      {item.name}
+                    </Link>
                   </Col>
-                  <Col md={2}>${item.price}</Col>
+                  <Col md={2} className="font-light">
+                    ${item.price}
+                  </Col>
                   <Col md={2}>
                     <Form.Control
                       as="select"
@@ -93,24 +100,22 @@ const CartScreen = ({ match, location, history }) => {
         <Card>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>
+              <h2 className="font-medium mb-1 text-[1.3em]">
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h2>
-              $
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)}
+              <p className="mt-2 text-[1.1em] font-light">
+                Cart Value: $
+                {cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </p>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button
-                type="button"
-                className="bg-black hover:bg-slate-800 w-full"
+              <PayButton
                 disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Proceed To Checkout
-              </Button>
+                cartItems={cart.cartItems}
+              />
             </ListGroup.Item>
           </ListGroup>
         </Card>
