@@ -65,7 +65,7 @@ const HomeScreen = ({ match, history, location }) => {
           ) : (
             <>
               <Row>
-                <Col md={3}>
+                <Col md={3} className="mb-2">
                   <h6>Sort By:</h6>
                   <Sort products={products} pages={pages} page={page} />
                 </Col>

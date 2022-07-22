@@ -13,6 +13,8 @@ const UserEditScreen = ({ match, history }) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
   const dispatch = useDispatch();
@@ -37,6 +39,8 @@ const UserEditScreen = ({ match, history }) => {
       } else {
         setName(user.name);
         setEmail(user.email);
+        setPassword(user.password);
+        setPhone(user.phone);
         setIsAdmin(user.isAdmin);
       }
     }
@@ -44,13 +48,18 @@ const UserEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
+    dispatch(
+      updateUser({ _id: userId, name, email, password, phone, isAdmin })
+    );
   };
 
   return (
     <>
-      <Link to="/admin/userlist" className="btn bg-black w-full text-white
-                      hover:bg-gray-700 my-3">
+      <Link
+        to="/admin/userlist"
+        className="btn bg-black w-1/4 text-white
+                      hover:bg-gray-700 my-3"
+      >
         Go Back
       </Link>
       <FormContainer>
@@ -83,16 +92,36 @@ const UserEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
+            <Form.Group controlId="phone">
+              <Form.Label>Phone Number</Form.Label>
+              <Form.Control
+                type="tel"
+                placeholder="Enter Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter New Password For User"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group controlId="isadmin">
               <Form.Check
                 type="checkbox"
-                label="Is Admin"
+                label="Want to make this user Admin?"
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
               ></Form.Check>
             </Form.Group>
 
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" className="btn w-full bg-black hover:bg-gray-800">
               Update
             </Button>
           </Form>

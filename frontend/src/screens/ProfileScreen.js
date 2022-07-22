@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import axios from "axios";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { listMyOrders } from "../actions/orderActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
@@ -14,6 +15,8 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [profileImage, setProfileImage] = useState("");
+  const [phone, setPhone] = useState("");
 
   const dispatch = useDispatch();
 
@@ -29,6 +32,34 @@ const ProfileScreen = ({ location, history }) => {
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
 
+  const [uploadingProfilePicture, setUploadingProfilePicture] = useState(false);
+
+  const uploadFileHandlerone = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploadingProfilePicture(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/uploadprofilepicture",
+        formData,
+        config
+      );
+      setProfileImage(data);
+      setUploadingProfilePicture(false);
+    } catch (error) {
+      console.log(error);
+      setUploadingProfilePicture(false);
+    }
+  };
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -40,6 +71,8 @@ const ProfileScreen = ({ location, history }) => {
       } else {
         setName(user.name);
         setEmail(user.email);
+        setPhone(user.phone);
+        setProfileImage(user.profileImage);
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -49,80 +82,150 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(
+        updateUserProfile({
+          id: user._id,
+          name,
+          email,
+          password,
+          phone,
+          profileImage,
+        })
+      );
     }
   };
 
   return (
-    <Row>
-      <Col md={3}>
-        <h2>User Profile</h2>
-        {message && <Message variant="danger">{message}</Message>}
-        {}
-        {success && <Message variant="success">Profile Updated</Message>}
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+    <>
+      <Row className="cta-prof-head">
+        <Col
+          md={3}
+          className="bg-slate-900 flex justify-center items-center text-white flex-col cta-prof"
+        >
+          {user.profileImage && (
+            <>
+              {/* <div className="dividerrrprofile"></div> */}
+              <center>
+                <img
+                  alt={user.profileImage}
+                  src={user.profileImage}
+                  draggable="false"
+                  width="50%"
+                />
+              </center>
+            </>
+          )}
+          <br></br>
+          <br />
+          <h1 className="text-white font-bold text-2xl">
+            Hello, {userInfo.name}
+          </h1>
+          <h1 className="text-slate-200 font-bold text-1xl">
+            Have a nice day / night!
+          </h1>
+        </Col>
 
-            <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+        <Col>
+          <h2 className="font-light text-[1.2em] mb-1 prf-tit">
+            Update your information
+          </h2>
+          {message && <Message variant="danger">{message}</Message>}
+          {}
+          {success && <Message variant="success">Profile Updated</Message>}
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="name"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="email">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="confirmPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Confirm password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="phone">
+                <Form.Label>Phone</Form.Label>
+                <Form.Control
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  value={phone}
+                  type="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Button
-              type="submit"
-              className="btn bg-black w-full text-white hover:bg-gray-700"
-            >
-              Update
-            </Button>
-          </Form>
-        )}
-      </Col>
-      <Col md={9}>
-        <h2>My Orders</h2>
-        {loadingOrders ? (
-          <Loader />
-        ) : errorOrders ? (
-          <Message variant="danger">{errorOrders}</Message>
-        ) : (
-          <Table striped bordered hover responsive className="table-sm">
+              <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId="confirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Confirm password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group controlId="profileImage">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Profile Image"
+                  value={profileImage}
+                  onChange={(e) => setProfileImage(e.target.value)}
+                ></Form.Control>
+                <Form.File
+                  id="image-file"
+                  label="Choose File"
+                  custom
+                  onChange={uploadFileHandlerone}
+                  className="mb-1 mt-1"
+                ></Form.File>
+                {uploadingProfilePicture && <Loader />}
+              </Form.Group>
+
+              <Button
+                type="submit"
+                className="btn bg-black w-full text-white hover:bg-gray-700"
+              >
+                Update Profile
+              </Button>
+            </Form>
+          )}
+        </Col>
+      </Row>
+      <br />
+      {loadingOrders ? (
+        <Loader />
+      ) : errorOrders ? (
+        <Message variant="danger">{errorOrders}</Message>
+      ) : (
+        <>
+          <h1 className="font-light text-[1.2em] mb-1">Your Orders</h1>
+          <Table striped bordered hover responsive className="table-sm mt-3">
             <thead>
               <tr>
                 <th>ID</th>
@@ -156,9 +259,9 @@ const ProfileScreen = ({ location, history }) => {
               ))}
             </tbody>
           </Table>
-        )}
-      </Col>
-    </Row>
+        </>
+      )}
+    </>
   );
 };
 

@@ -57,17 +57,19 @@ const LoginScreen = ({ location, history }) => {
 
         <div className="login-screen-right">
           <h1 className="text-3xl font-bold">Sign In</h1>
+
           {error && <Message variant="danger">{error}</Message>}
           {loading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="email">
-              <Form.Label className="text-medium text-1xl font-medium">
+              <Form.Label className="text-medium text-1xl font-medium mt-2">
                 Email Address
               </Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
                 value={email}
+                className="login-input w-full"
                 onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
             </Form.Group>
@@ -80,6 +82,7 @@ const LoginScreen = ({ location, history }) => {
                 type="password"
                 placeholder="Enter password"
                 value={password}
+                className="login-input w-full"
                 onChange={(e) => setPassword(e.target.value)}
               ></Form.Control>
             </Form.Group>
@@ -92,26 +95,42 @@ const LoginScreen = ({ location, history }) => {
             </Button>
           </Form>
 
-          <Row className="py-3">
-            <Col className="flex">
-              <p className="font-medium mr-2">New Customer?</p>{" "}
-              <Link
-                to={redirect ? `/register?redirect=${redirect}` : "/register"}
-                className="underline"
-              >
-                Register
-              </Link>
-              <Link to="/forgot-password" variant="body2">
-                Forgot password?
-              </Link>
-            </Col>
-            <button onClick={signInWithGoogleHandler} className="signningoogle">
+          <div class="flex justify-center items-center mt-4">
+            <button
+              onClick={signInWithGoogleHandler}
+              className=" bg-slate-200 rounded-full w-1/2 flex justify-center items-center p-1 hover:bg-slate-300"
+            >
               <img
                 src="https://img.icons8.com/fluent/48/000000/google-logo.png"
-                height="auto"
                 alt=""
+                className="mr-2 h-10 w-10"
               />
+              Sign In With Google
             </button>
+          </div>
+
+          <Row className="py-3 mt-4">
+            <Col className="flex justify-between">
+              <div>
+                <p className="font-medium mr-2">New Customer?</p>{" "}
+                <Link
+                  to={redirect ? `/register?redirect=${redirect}` : "/register"}
+                  className="underline"
+                >
+                  Register
+                </Link>
+              </div>
+              <div>
+                <p className="font-medium mr-2">New Forgot Your Password?</p>{" "}
+                <Link
+                  to="/forgot-password"
+                  className="underline"
+                  variant="body2"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+            </Col>
           </Row>
         </div>
       </div>

@@ -74,7 +74,7 @@ const ProductListScreen = ({ history, match }) => {
     <>
       <Row className="align-items-center">
         <Col>
-          <h1>Products</h1>
+        <h1 className="font-medium mb-3 text-3xl">Products</h1>
         </Col>
         <Col className="text-right">
           <Button

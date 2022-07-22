@@ -62,13 +62,8 @@ const OrderScreen = ({ match, history }) => {
 
     order.itemsPrice = addDecimals(
       order.orderItems.reduce(
-        (acc, item) => acc + (item.price + item.specialPrice) * item.qty,
-        // +
-        // item.qty1 +
-        // item.qty2 +
-        // item.qty3 +
-        // item.qty4 +
-        // item.qty5,
+        (acc, item) => acc + item.price * item.qty,
+
         0
       )
     );
@@ -171,18 +166,6 @@ const OrderScreen = ({ match, history }) => {
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
-            {userInfo && userInfo.ispromember && (
-              <ListGroup.Item>
-                <h1>Thanks For Being A Pro Member</h1>
-              </ListGroup.Item>
-            )}
-
-            {userInfo && userInfo.isMilitary && (
-              <ListGroup.Item>
-                <h1>Thanks You For Your Service!</h1>
-              </ListGroup.Item>
-            )}
-
             <h3>Thank You {order.user.name} for ordering with us!</h3>
             <h5>
               Your Purchase Really Means A Lot To Us! Thanks for supporting our
@@ -278,8 +261,7 @@ const OrderScreen = ({ match, history }) => {
                            */}
                           {item.qty} x {item.price > 0 && <>${item.price}</>}{" "}
                           {""}
-                          {item.specialPrice > 0 && <>{item.specialPrice}</>}
-                          {""} = ${item.qty * (item.price + item.specialPrice)}
+                          {""} = ${item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -303,18 +285,6 @@ const OrderScreen = ({ match, history }) => {
                 <Row>
                   <Col>Items</Col>
                   <Col>${order.itemsPrice}</Col>
-                  {order.specialPrice > 0 && (
-                    <>
-                      <Col>${order.specialPrice}</Col>
-                    </>
-                  )}
-                </Row>
-              </ListGroup.Item>
-
-              <ListGroup.Item>
-                <Row>
-                  <Col>Total W/ Fee</Col>
-                  <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -350,13 +320,12 @@ const OrderScreen = ({ match, history }) => {
                   !order.isDelivered && (
                     <Button
                       type="button"
-                      className="btn btn-block"
+                      className="btn btn-block bg-black hover:bg-gray-800"
                       onClick={deliverHandler}
                     >
                       Mark As Delivered/Shipped
                     </Button>
                   )}
-
               </ListGroup.Item>
 
               {loadingPack && <Loader />}
@@ -367,7 +336,7 @@ const OrderScreen = ({ match, history }) => {
                   <ListGroup.Item>
                     <Button
                       type="button"
-                      className="btn btn-block"
+                      className="btn btn-block bg-black hover:bg-gray-800"
                       onClick={orderPackedHandler}
                     >
                       Mark As Packed
@@ -383,7 +352,7 @@ const OrderScreen = ({ match, history }) => {
                   <ListGroup.Item>
                     <Button
                       type="button"
-                      className="btn btn-block"
+                      className="btn btn-block bg-black hover:bg-gray-800"
                       onClick={orderDispatchedHandler}
                     >
                       Mark As Dispatched
@@ -407,7 +376,7 @@ const OrderScreen = ({ match, history }) => {
                   <ListGroup.Item>
                     <Button
                       type="button"
-                      className="btn btn-block"
+                      className="btn btn-block bg-red-900 hover:bg-red-800"
                       onClick={cancelHandler}
                       // disabled
                     >

@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listOrders, deleteOrder } from "../actions/orderActions";
-import moment from "moment";
+import { Link } from "react-router-dom";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <h1 className="font-medium mb-3 text-3xl">Orders</h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -52,9 +51,6 @@ const OrderListScreen = ({ history }) => {
               <th>DATE</th>
               {/* <th>TOTAL</th> */}
               <th>DELIVERED</th>
-              <th>PACKED</th>
-              <th>DISPATCHED</th>
-              <th>CANCELLED</th>
               <th></th>
             </tr>
           </thead>
@@ -73,40 +69,18 @@ const OrderListScreen = ({ history }) => {
                   )}
                 </td>
                 <td>
-                  {order.isPacked ? (
-                    order.packedAt.substring(0, 10)
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDispatched ? (
-                    <i className="fas fa-check" style={{ color: "red" }}></i>
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-                <td>
-                  {order.isCancelled ? (
-                    moment(order.cancelledAt).format("LLL")
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-
-                <td>
-                  <LinkContainer to={`/order/${order._id}`}>
-                    <Button className="btn-sm bg-black text-white hover:bg-gray-700">
+                  <Link to={`/order/${order._id}`}>
+                    <Button className="btn-sm bg-black  text-white hover:bg-gray-700">
                       Details
                     </Button>
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(order._id)}
-                    >
-                      <i className="fas fa-trash"></i>Delete
-                    </Button>
-                  </LinkContainer>
+                  </Link>
+                  <Button
+                    variant="danger"
+                    className="btn-sm bg-red-900 hover:bg-red-800"
+                    onClick={() => deleteHandler(order._id)}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </Button>
                 </td>
               </tr>
             ))}

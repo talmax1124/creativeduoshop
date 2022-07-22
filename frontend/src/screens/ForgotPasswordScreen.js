@@ -22,16 +22,16 @@ const ForgotPasswordScreen = () => {
 
   return (
     <FormContainer>
-      <h1>Forgot Password</h1>
+      <h1 className="text-2xl mb-2">Forgot Password?</h1>
       {error && <Message variant="danger">{error}</Message>}
       {success && message && <Message variant="success">{message}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
-          <Form.Label>Registered Email Address</Form.Label>
+          <Form.Label className="text-1xl">Enter Registered Email Address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
+            placeholder="Enter Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
@@ -39,7 +39,11 @@ const ForgotPasswordScreen = () => {
         <p>
           You will receive instructions to reset your password in your email.
         </p>
-        <Button type="submit" variant="primary">
+        <Button
+          type="submit"
+          variant="primary"
+          className="btn bg-black hover:bg-gray-800 mt-2 w-full"
+        >
           Submit
         </Button>
       </Form>

@@ -220,6 +220,35 @@ main {
     padding-right: 0;
     margin-left: 0;
   }
+  .login-screen-left {
+    display: none;
+  }
+  .login-screen-right {
+    width: 100%;
+  }
+  .login-input {
+    width: 100%;
+  }
+  .login-screen {
+    display: flex;
+    width: 100%;
+    .login-screen-left {
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+    .login-screen-right {
+      width: 100%;
+      padding: 1em;
+    }
+  }
+  .cta-prof {
+    padding: 1em;
+  }
+  .prf-tit {
+    margin-top: 1em;
+  }
 }
 @media (max-width: 600px) {
   .carousel-caption {
