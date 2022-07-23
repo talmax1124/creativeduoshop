@@ -82,6 +82,22 @@ main {
   #htit {
     font-size: 3em;
   }
+  .customersupport {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.carousel-control-prev span {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 12px;
+}
+
+.carousel-control-next span {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 12px;
 }
 
 @media (min-width: 1005px) {

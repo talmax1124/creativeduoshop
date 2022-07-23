@@ -239,7 +239,6 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
               <Form.File
-                id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandler}
@@ -256,7 +255,6 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setAdditionalimageone(e.target.value)}
               ></Form.Control>
               <Form.File
-                id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandlerone}
@@ -273,7 +271,6 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setAdditionalimagetwo(e.target.value)}
               ></Form.Control>
               <Form.File
-                id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandlertwo}
@@ -290,7 +287,6 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={(e) => setAdditionalimagethree(e.target.value)}
               ></Form.Control>
               <Form.File
-                id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandlerthree}

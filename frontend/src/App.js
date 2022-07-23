@@ -86,7 +86,7 @@ const App = () => {
           />
 
           {/* Stripe Related -> Creates Order (Stripe Endpoint) */}
-          <Route path="/success/" component={StripeSuccess} />
+          <Route path="/success/:session_id" component={StripeSuccess} />
 
           {/* Footer Pages */}
           <Route path="/returnpolicy" component={returnpolicy} />

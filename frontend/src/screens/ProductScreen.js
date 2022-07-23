@@ -213,7 +213,9 @@ const ProductScreen = ({ history, match }) => {
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h3>{product.name}</h3>
+                  <h3 className="font-medium font-sans text-[1.3em]">
+                    {product.name}
+                  </h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating
@@ -228,24 +230,26 @@ const ProductScreen = ({ history, match }) => {
 
                 {product.price > 0 && (
                   <ListGroup.Item>
-                    Price: <br></br>
-                    <br></br> <h5>$ {product.price}</h5>
+                    <span className="font-medium uppercase">Price:</span>{" "}
+                    <span className="font-light uppercase">
+                      ${product.price}
+                    </span>
                   </ListGroup.Item>
                 )}
 
                 <ListGroup.Item>
-                  Date Created: <br></br>
-                  <br></br> <h5> {moment(product.createdAt).format("L")}</h5>
+                  <span className="font-medium uppercase">Date Created:</span>{" "}
+                  {moment(product.createdAt).format("L")}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Brand: <br></br>
-                  <br></br> <h5>{product.brand}</h5>
+                  <span className="font-medium uppercase">Brand:</span>{" "}
+                  <span className="font-light">{product.brand}</span>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  Category: <br></br>
-                  <br></br> <h5>{product.category}</h5>
+                  <span className="font-medium uppercase">Category:</span>{" "}
+                  <span className="font-light">{product.category}</span>
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -320,7 +324,7 @@ const ProductScreen = ({ history, match }) => {
                     <ListGroup.Item>
                       <Link to={`/admin/product/${product._id}/edit`}>
                         <Button className="bg-black w-full hover:bg-slate-700">
-                          Edit Product: {product.name}
+                          Edit Product
                         </Button>
                       </Link>
                     </ListGroup.Item>
@@ -330,11 +334,10 @@ const ProductScreen = ({ history, match }) => {
                     <ListGroup.Item>
                       <Button
                         variant="danger"
-                        className="bg-black w-full hover:bg-slate-700"
+                        className="bg-red-900 w-full hover:bg-red-700"
                         onClick={() => deleteHandler(product._id)}
                       >
-                        <i className="fas fa-trash"></i> Delete Product:{" "}
-                        {product.name}
+                        <i className="fas fa-trash"></i> Delete Product
                       </Button>
                     </ListGroup.Item>
                   )}
@@ -361,7 +364,7 @@ const ProductScreen = ({ history, match }) => {
                   alignItems: "center",
                 }}
               >
-                <h3>Description</h3>
+                <h3 className="font-medium mb-3 font-[1.15em]">Description</h3>
               </Row>
               <Row
                 style={{
@@ -380,7 +383,9 @@ const ProductScreen = ({ history, match }) => {
 
           <Row>
             <Col>
-              <h1>More on product: {product.name}</h1>
+              <h1 className="mb-3 font-medium">
+                More information on: {product.name}
+              </h1>
 
               {product.productImportantInformation && (
                 <>
@@ -393,7 +398,7 @@ const ProductScreen = ({ history, match }) => {
                   <Button
                     variant="primary"
                     onClick={handleShow}
-                    className="btn btn-block"
+                    className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2"
                   >
                     Open Product Video
                   </Button>
@@ -419,7 +424,11 @@ const ProductScreen = ({ history, match }) => {
                       ></iframe>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="primary" onClick={handleClose}>
+                      <Button
+                        variant="primary"
+                        className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2"
+                        onClick={handleClose}
+                      >
                         Close
                       </Button>
                     </Modal.Footer>
@@ -432,7 +441,7 @@ const ProductScreen = ({ history, match }) => {
                   <Button
                     variant="primary"
                     onClick={handleShow}
-                    className="btn btn-block"
+                    className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2"
                   >
                     Open Product Tutorial
                   </Button>
@@ -458,7 +467,7 @@ const ProductScreen = ({ history, match }) => {
                       ></iframe>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="primary" onClick={handleClose}>
+                      <Button variant="primary" className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2" onClick={handleClose}>
                         Close
                       </Button>
                     </Modal.Footer>

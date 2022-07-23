@@ -40,7 +40,7 @@ const CartScreen = ({ match, location, history }) => {
   return (
     <Row>
       <Col md={8}>
-        <h1 class=" text-black text-2xl font-medium tracking-tight leading-none md:text-4xl xl:text-6xl mb-1 ">
+        <h1 className=" text-black text-2xl font-medium tracking-tight leading-none md:text-4xl xl:text-6xl mb-1 ">
           Shopping Cart
         </h1>
         <hr className="mb-2" />

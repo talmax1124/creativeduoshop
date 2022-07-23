@@ -72,6 +72,19 @@ main {
   #htit {
     font-size: 3em;
   }
+  .customersupport {
+    flex-direction: column;
+  }
+}
+
+.carousel-control-prev span {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 12px;
+}
+
+.carousel-control-next span {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 12px;
 }
 
 @media (min-width: 1005px) {

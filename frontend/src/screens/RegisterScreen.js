@@ -131,7 +131,6 @@ const RegisterScreen = ({ location, history }) => {
         <Form.Group controlId="profileImage">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            id="profileImage"
             label="Profile Image URL"
             name="profileImage"
             value={profileImage}
@@ -139,7 +138,6 @@ const RegisterScreen = ({ location, history }) => {
             disabled
           ></Form.Control>
           <Form.File
-            id="image-file"
             label="Choose File"
             custom
             onChange={uploadFileHandlerone}

@@ -117,10 +117,10 @@ const ProfileScreen = ({ location, history }) => {
           )}
           <br></br>
           <br />
-          <h1 className="text-white font-bold text-2xl">
+          <h1 className="text-white font-bold text-2xl text-center">
             Hello, {userInfo.name}
           </h1>
-          <h1 className="text-slate-200 font-bold text-1xl">
+          <h1 className="text-slate-200 font-bold text-1xl text-center">
             Have a nice day / night!
           </h1>
         </Col>
@@ -161,7 +161,6 @@ const ProfileScreen = ({ location, history }) => {
               <Form.Group controlId="phone">
                 <Form.Label>Phone</Form.Label>
                 <Form.Control
-                  id="phone"
                   label="Phone Number"
                   name="phone"
                   value={phone}
@@ -198,7 +197,6 @@ const ProfileScreen = ({ location, history }) => {
                   onChange={(e) => setProfileImage(e.target.value)}
                 ></Form.Control>
                 <Form.File
-                  id="image-file"
                   label="Choose File"
                   custom
                   onChange={uploadFileHandlerone}
@@ -230,7 +228,7 @@ const ProfileScreen = ({ location, history }) => {
               <tr>
                 <th>ID</th>
                 <th>DATE</th>
-                {/* <th>TOTAL</th> */}
+                <th>TOTAL</th>
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
@@ -240,7 +238,7 @@ const ProfileScreen = ({ location, history }) => {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  {/* <td>${order.totalPrice}</td> */}
+                  <td>${order.totalPrice}</td>
                   <td>
                     {order.isDelivered ? (
                       order.deliveredAt.substring(0, 10)

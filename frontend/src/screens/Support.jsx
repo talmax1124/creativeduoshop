@@ -12,7 +12,7 @@ const Support = () => {
           Customer Support
         </h1>
         <hr className="mb-3" />
-        <div className="flex justify-between">
+        <div className="flex justify-between customersupport">
           <div>
             <h1 className="text-3xl font-serif">Hello, {userInfo.name}!</h1>
             <p className="font-light text-2xl">How can we help?</p>
