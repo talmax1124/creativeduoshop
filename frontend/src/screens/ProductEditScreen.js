@@ -222,7 +222,7 @@ const ProductEditScreen = ({ match, history }) => {
             <Form.Group controlId="price">
               <Form.Label>Price</Form.Label>
               <Form.Control
-                type="number"
+                type="text"
                 step="any"
                 placeholder="Enter price"
                 value={price}
@@ -420,8 +420,12 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control> */}
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="btn btn-block">
-              Update Product: {product.name}
+            <Button
+              type="submit"
+              variant="primary"
+              className="btn btn-block bg-black hover:bg-gray-800"
+            >
+              Update / Create Product
             </Button>
           </Form>
         )}

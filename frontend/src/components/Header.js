@@ -13,6 +13,9 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -40,12 +43,17 @@ const Header = () => {
               <Nav className="ml-auto">
                 <LinkContainer to="/cart">
                   <Nav.Link>
-                    <i className="fas fa-shopping-cart"></i> Cart
+                    <i className="fas fa-shopping-cart"></i> Cart (
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)})
                   </Nav.Link>
                 </LinkContainer>
                 {userInfo ? (
                   <>
-                    <NavDropdown title={userInfo.name} id="username" className="rounded-sm">
+                    <NavDropdown
+                      title={userInfo.name}
+                      id="username"
+                      className="rounded-sm"
+                    >
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>Profile</NavDropdown.Item>
                       </LinkContainer>

@@ -24,6 +24,9 @@ const CartScreen = ({ match, location, history }) => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -112,10 +115,22 @@ const CartScreen = ({ match, location, history }) => {
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
-              <PayButton
-                disabled={cartItems.length === 0}
-                cartItems={cart.cartItems}
-              />
+              {userInfo ? (
+                <PayButton
+                  disabled={cartItems.length === 0}
+                  cartItems={cart.cartItems}
+                />
+              ) : (
+                <Link
+                  to="/signin"
+                  className="no-underline"
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button className="btn btn-block bg-red-600 hover:bg-red-700 no-underline">
+                    Sign In To Proceed
+                  </Button>
+                </Link>
+              )}
             </ListGroup.Item>
           </ListGroup>
         </Card>
