@@ -122,7 +122,7 @@ const CartScreen = ({ match, location, history }) => {
                 />
               ) : (
                 <Link
-                  to="/signin"
+                  to="/login"
                   className="no-underline"
                   style={{ textDecoration: "none" }}
                 >
