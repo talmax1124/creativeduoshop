@@ -5,15 +5,7 @@ import Order from "../models/orderModel.js";
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  const {
-    orderItems,
-
-    orderNotes,
-    fileUpload,
-    itemsPrice,
-
-    totalPrice,
-  } = req.body;
+  const { orderItems, orderNotes, itemsPrice, totalPrice } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -24,7 +16,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
       orderItems,
       user: req.user._id,
       orderNotes,
-      fileUpload,
       itemsPrice,
       totalPrice,
     });
@@ -79,6 +70,41 @@ const updateOrderToDispatched = asyncHandler(async (req, res) => {
   if (order) {
     order.isDispatched = true;
     order.dispatchedAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
+//UPDATE ORDER Shipment Link From Stripe (Copy & Paste)
+const updateOrderShipmentPaymentLink = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    // order.isDispatched = true;
+    // order.dispatchedAt = Date.now();
+    order.shipmentPaymentLink = "No Shipment Link";
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
+//UPDATE ORDER With Shipment # (Copy & Paste)
+const updateOrderShipmentInformation = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    // order.isDispatched = true;
+    // order.dispatchedAt = Date.now();
+
+    order.shipmentNumber = "No Shipment Posted Yet";
 
     const updatedOrder = await order.save();
     res.json(updatedOrder);
@@ -198,4 +224,6 @@ export {
   updateOrderToPacked,
   updateOrderToDispatched,
   cancelOrder,
+  updateOrderShipmentInformation,
+  updateOrderShipmentPaymentLink,
 };

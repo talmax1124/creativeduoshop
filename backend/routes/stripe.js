@@ -9,10 +9,10 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 
 router.get("/getstripesession/:sessionId", async (req, res) => {
-  const {sessionId} = req.params;
+  const { sessionId } = req.params;
   const session = await stripe.checkout.sessions.retrieve(sessionId);
-  return res.send({session})
-})
+  return res.send({ session });
+});
 
 router.post("/create-checkout-session", async (req, res) => {
   const customer = await stripe.customers.create({

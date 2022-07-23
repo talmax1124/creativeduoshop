@@ -158,82 +158,85 @@ const OrderScreen = ({ match, history }) => {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <div className="orderid">
-        <span className="float-left">
-          <h1 className="orderidleft">Order ID: {order._id} </h1>
-        </span>
-      </div>
       <Row>
         <Col md={8}>
-          <ListGroup variant="flush">
-            <h3>Thank You {order.user.name} for ordering with us!</h3>
-            <h5>
-              Your Purchase Really Means A Lot To Us! Thanks for supporting our
-              small business.
-            </h5>
+          <ListGroup className="orderid" variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h1 className="text-3xl font-light font-sans mb-2">
+                Hello, {order.user.name}!
+              </h1>
+              <p className="mb-2">
+                Thank your for supporting our small business. It means the world
+                to us! Below, you can find your order information.
+              </p>
+              <p className="text-red-900 font-medium">
+                NOTE: If you noticed, shipping options were not displayed. As
+                shipping costs are inflated by the shipping company, we are not
+                able to show the shipping options. To resolve this, in the
+                shipping section, there will be a link that states "Pay Shipping
+                Here" up to pay shipping cost of your order once we calculate
+                that price. We will send you an email for when that is ready.
+                After that, you will be able to see the tracking number in about
+                4hrs - 2 days.
+              </p>
+            </ListGroup.Item>
+          </ListGroup>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <h2 className="font-bold mb-2 text-[1.2em]">
+                Shipping & Order Information
+              </h2>
               <p>
                 <strong>Name: </strong> {order.user.name}
               </p>
               <p>
                 <strong>Email: </strong>{" "}
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                <a href={`mailto:${order.user.email}`} className="mb-2">{order.user.email}</a>
               </p>
 
               {order.isCancelled && (
-                <Message variant="danger">Order is Cancelled</Message>
+                <Message variant="danger" className="mt-2 mb-2">Order is Cancelled</Message>
               )}
 
               {order.isPacked ? (
-                <Message variant="success">Packed On {order.packedAt}</Message>
+                <Message variant="success" className="mt-2 mb-2">Packed On {order.packedAt}</Message>
               ) : (
                 !order.isCancelled && (
-                  <Message variant="danger">Order is Not Packed Yet</Message>
+                  <Message variant="danger" className="mt-2 mb-2">Order is Not Packed Yet</Message>
                 )
               )}
 
               {order.isDispatched ? (
-                <Message variant="success">Order Has Been Dispatched</Message>
+                <Message variant="success" className="mt-2 mb-2">Order Has Been Dispatched</Message>
               ) : (
                 !order.isCancelled && (
-                  <Message variant="danger">
+                  <Message variant="danger" className="mt-2 mb-2">
                     Order is Not Dispatched Yet
                   </Message>
                 )
               )}
 
               {order.isDelivered ? (
-                <Message variant="success">
+                <Message variant="success" className="mt-2 mb-2">
                   Delivered/Shipped on {order.deliveredAt}
                 </Message>
               ) : (
                 !order.isCancelled && (
-                  <Message variant="danger">Order is Not Delivered Yet</Message>
+                  <Message variant="danger" className="mt-2 mb-2">Order is Not Delivered Yet</Message>
                 )
                 // <Message variant="danger">Not Delivered/Shipped </Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Notes:</h2>
+              <h2 className="font-medium mb-2 text-[1.1em]">Order Notes:</h2>
               <p>
-                <strong>Note/Request: </strong>
-                {/* {order.orderNotes} */}
                 <OrderNotesJoditOrder order={order} />
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>File URL</h2>
-              <p>
-                <strong>URL: </strong>
-                {order.fileUpload}
-              </p>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2 className="font-medium mb-2 text-[1.1em]">Order Items</h2>
               {order.orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
@@ -266,10 +269,6 @@ const OrderScreen = ({ match, history }) => {
                       </Row>
                     </ListGroup.Item>
                   ))}
-
-                  <ListGroup.Item>
-                    Current Order Status: {order.orderStatus}
-                  </ListGroup.Item>
                 </ListGroup>
               )}
             </ListGroup.Item>
@@ -283,8 +282,16 @@ const OrderScreen = ({ match, history }) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
+                  <Col>Order ID:</Col>
+                  <Col>{order._id}</Col>
+                </Row>
+                <Row>
+                  <Col>Items Total:</Col>
                   <Col>${order.itemsPrice}</Col>
+                </Row>
+                <Row>
+                  <Col>Order Total:</Col>
+                  <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 

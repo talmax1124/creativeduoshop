@@ -26,7 +26,6 @@ const orderSchema = mongoose.Schema(
       type: String,
     },
 
-
     totalPrice: {
       type: Number,
       required: true,
@@ -42,6 +41,15 @@ const orderSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    shippingAddress: {
+      type: String,
+    },
+    shipmentNumber: {
+      type: String,
+    },
+    shipmentPaymentLink: {
+      type: String,
     },
     isDelivered: {
       type: Boolean,
@@ -63,14 +71,11 @@ const orderSchema = mongoose.Schema(
 
     countInStock: { type: Number },
 
-    fileUpload: {
-      type: String,
-    },
-
     packedAt: {
       type: String,
       type: Date,
     },
+    
     emailNotifier: {
       dispatchedAt: {
         type: String,

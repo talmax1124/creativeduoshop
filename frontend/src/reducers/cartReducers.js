@@ -2,7 +2,6 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   CART_SAVE_ORDERNOTES,
-  CART_SAVE_FILEUPLOAD,
   CART_CLEAR_ITEMS,
 } from "../constants/cartConstants";
 
@@ -39,11 +38,6 @@ export const cartReducer = (
       return {
         ...state,
         orderNotes: action.payload,
-      };
-    case CART_SAVE_FILEUPLOAD:
-      return {
-        ...state,
-        fileUpload: action.payload,
       };
     case CART_CLEAR_ITEMS:
       return {
