@@ -10,6 +10,7 @@ import {
   deleteOrder,
   updateOrderToPacked,
   updateOrderToDispatched,
+  // updateOrderShipmentPaymentLink,
   cancelOrder,
 } from "../controllers/orderController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
@@ -31,5 +32,9 @@ router.route("/:id/orderstatus").put(protect, admin, updateOrderStatus);
 router.route("/:id/packed").put(protect, admin, updateOrderToPacked);
 router.route("/:id/dispatched").put(protect, admin, updateOrderToDispatched);
 router.route("/:id/cancelled").put(protect, cancelOrder);
+
+// router
+//   .route("/:id/shipmentpaymentlink")
+//   .put(protect, admin, updateOrderShipmentPaymentLink);
 
 export default router;

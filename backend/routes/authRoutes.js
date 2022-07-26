@@ -50,8 +50,10 @@ router.get("/currentuser", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect(originUri);
+  req.session.destroy(() => {
+    req.logout();
+    res.redirect(originUri);
+  })
 });
 
 export default router;

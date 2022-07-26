@@ -5,7 +5,13 @@ import Order from "../models/orderModel.js";
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  const { orderItems, orderNotes, itemsPrice, totalPrice } = req.body;
+  const {
+    orderItems,
+    orderNotes,
+    itemsPrice,
+    totalPrice,
+    shippingAddress,
+  } = req.body;
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
@@ -18,11 +24,23 @@ const addOrderItems = asyncHandler(async (req, res) => {
       orderNotes,
       itemsPrice,
       totalPrice,
+      shippingAddress,
     });
 
     const createdOrder = await order.save();
 
     res.status(201).json(createdOrder);
+
+    //UPDATE COUNT IN STOCK
+    // ==========================================================
+
+    for (const index in order.orderItems) {
+      const item = order.orderItems[index];
+      const product = await Product.findById(item.product);
+      product.countInStock -= item.qty;
+      await product.save();
+    }
+    // ========================================================
   }
 });
 
@@ -79,40 +97,40 @@ const updateOrderToDispatched = asyncHandler(async (req, res) => {
   }
 });
 
-//UPDATE ORDER Shipment Link From Stripe (Copy & Paste)
-const updateOrderShipmentPaymentLink = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+// //UPDATE ORDER Shipment Link From Stripe (Copy & Paste)
+// const updateOrderShipmentPaymentLink = asyncHandler(async (req, res) => {
+//   const order = await Order.findById(req.params.id);
 
-  if (order) {
-    // order.isDispatched = true;
-    // order.dispatchedAt = Date.now();
-    order.shipmentPaymentLink = "No Shipment Link";
+//   if (order) {
+//     // order.isDispatched = true;
+//     // order.dispatchedAt = Date.now();
+//     order.shipmentPaymentLink = "No Shipment Link";
 
-    const updatedOrder = await order.save();
-    res.json(updatedOrder);
-  } else {
-    res.status(404);
-    throw new Error("Order not found");
-  }
-});
+//     const updatedOrder = await order.save();
+//     res.json(updatedOrder);
+//   } else {
+//     res.status(404);
+//     throw new Error("Order not found");
+//   }
+// });
 
 //UPDATE ORDER With Shipment # (Copy & Paste)
-const updateOrderShipmentInformation = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+// const updateOrderShipmentInformation = asyncHandler(async (req, res) => {
+//   const order = await Order.findById(req.params.id);
 
-  if (order) {
-    // order.isDispatched = true;
-    // order.dispatchedAt = Date.now();
+//   if (order) {
+//     // order.isDispatched = true;
+//     // order.dispatchedAt = Date.now();
 
-    order.shipmentNumber = "No Shipment Posted Yet";
+//     order.shipmentNumber = "No Shipment # Posted Yet";
 
-    const updatedOrder = await order.save();
-    res.json(updatedOrder);
-  } else {
-    res.status(404);
-    throw new Error("Order not found");
-  }
-});
+//     const updatedOrder = await order.save();
+//     res.json(updatedOrder);
+//   } else {
+//     res.status(404);
+//     throw new Error("Order not found");
+//   }
+// });
 
 //CANCEL ORDER
 const cancelOrder = asyncHandler(async (req, res) => {
@@ -139,17 +157,6 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
-
-    // //UPDATE COUNT IN STOCK
-    // // ==========================================================
-
-    // for (const index in order.orderItems) {
-    //   const item = order.orderItems[index];
-    //   const product = await Product.findById(item.product);
-    //   product.countInStock -= item.qty;
-    //   await product.save();
-    // }
-    // // ========================================================
 
     const updatedOrder = await order.save();
 
@@ -224,6 +231,6 @@ export {
   updateOrderToPacked,
   updateOrderToDispatched,
   cancelOrder,
-  updateOrderShipmentInformation,
-  updateOrderShipmentPaymentLink,
+  // updateOrderShipmentInformation,
+  // updateOrderShipmentPaymentLink,
 };

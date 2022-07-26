@@ -16,6 +16,10 @@ import {
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_RESET,
+  // ORDER_SHIPMENTPAYMENT_FAIL,
+  // ORDER_SHIPMENTPAYMENT_SUCCESS,
+  // ORDER_SHIPMENTPAYMENT_REQUEST,
+  // ORDER_SHIPMENTPAYMENT_RESET,
   ORDER_STATUS_FAIL,
   ORDER_STATUS_REQUEST,
   ORDER_STATUS_RESET,
@@ -88,6 +92,29 @@ export const orderPackedReducer = (state = {}, action) => {
       return state;
   }
 };
+
+// export const orderShipmentLinkReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case ORDER_SHIPMENTPAYMENT_REQUEST:
+//       return {
+//         loading: true,
+//       };
+//     case ORDER_SHIPMENTPAYMENT_SUCCESS:
+//       return {
+//         loading: false,
+//         success: true,
+//       };
+//     case ORDER_SHIPMENTPAYMENT_FAIL:
+//       return {
+//         loading: false,
+//         error: action.payload,
+//       };
+//     case ORDER_SHIPMENTPAYMENT_RESET:
+//       return {};
+//     default:
+//       return state;
+//   }
+// };
 
 //ORDER CANCEL REDUCER
 

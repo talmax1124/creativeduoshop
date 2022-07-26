@@ -41,9 +41,34 @@ const StripeSuccess = ({ match, history }) => {
       `/api/stripe/getstripesession/${session_id}`
     );
     if (data.session) {
-      placeOrderHandler(data.session.amount_total)
+      placeOrderHandler(
+        data.session.amount_total,
+        data.session.customer_details.address
+      );
+      // placeOrderHandler(
+      //   data.session.amount_total
+      //   // data.session.customer_details.address.line1,
+      //   // data.session.customer_details.address.line2,
+      //   // data.session.customer_details.address.city,
+      //   // data.session.customer_details.address.state,
+      //   // data.session.customer_details.address.postal_code,
+      //   // data.session.customer_details.address.country
+      // );
+      // console.log(
+      //   data.session.customer_details.address.line1,
+      //   data.session.customer_details.address.line2,
+      //   data.session.customer_details.address.city,
+      //   data.session.customer_details.address.state,
+      //   data.session.customer_details.address.postal_code,
+      //   data.session.customer_details.address.country
+      // );
+      // console.log(data.session.customer_details.address.line1);
+      // console.log(data.session.customer_details.address.line2);
+      // console.log(data.session.customer_details.address.city);
+      // console.log(data.session.customer_details.address.postal_code);
+      // console.log(data.session.customer_details.address.state);
+      // console.log(data.session.customer_details.address.country);
     }
-
   };
 
   // const successPaymentHandler = (paymentResult) => {
@@ -51,7 +76,7 @@ const StripeSuccess = ({ match, history }) => {
   //   dispatch(payOrder(orderId, paymentResult));
   // };
 
-  const placeOrderHandler = (totalAmount) => {
+  const placeOrderHandler = (totalAmount, Address) => {
     dispatch(
       createOrder({
         orderItems: cart.cartItems,
@@ -59,11 +84,19 @@ const StripeSuccess = ({ match, history }) => {
         itemsPrice: cart.itemsPrice,
         taxPrice: cart.taxPrice,
         totalPrice: totalAmount / 100,
+        shippingAddress: Address,
       })
     );
   };
 
-  return <div>StripeSuccess</div>;
+  return (
+    <>
+      <h1 className="font-bold text-3xl">Your Purchase Has Been Completed.</h1>
+      <h1 className="font-medium text-2xl">
+        Please wait while we redirect you.
+      </h1>
+    </>
+  );
 };
 
 export default StripeSuccess;

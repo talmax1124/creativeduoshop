@@ -41,6 +41,51 @@ router.post("/create-checkout-session", async (req, res) => {
     shipping_address_collection: {
       allowed_countries: ["US"],
     },
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: {
+            amount: 350,
+            currency: "usd",
+          },
+          display_name: "Kissimmee FL Pickup",
+          // Delivers between 5-7 business days
+          delivery_estimate: {
+            minimum: {
+              unit: "business_day",
+              value: 5,
+            },
+            maximum: {
+              unit: "business_day",
+              value: 7,
+            },
+          },
+        },
+      },
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: {
+            amount: 450,
+            currency: "usd",
+          },
+          display_name: "Small Packet",
+          // Delivers in exactly 1 business day
+          delivery_estimate: {
+            minimum: {
+              unit: "business_day",
+              value: 3,
+            },
+            maximum: {
+              unit: "business_day",
+              value: 7,
+            },
+          },
+        },
+      },
+    ],
+
     line_items,
     mode: "payment",
     customer: customer.id,

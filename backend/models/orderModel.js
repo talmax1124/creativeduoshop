@@ -43,14 +43,19 @@ const orderSchema = mongoose.Schema(
       default: false,
     },
     shippingAddress: {
-      type: String,
+      line1: { type: String },
+      line2: { type: String },
+      city: { type: String },
+      state: { type: String },
+      postal_code: { type: String },
+      country: { type: String },
     },
-    shipmentNumber: {
-      type: String,
-    },
-    shipmentPaymentLink: {
-      type: String,
-    },
+    // shipmentNumber: {
+    //   type: String,
+    // },
+    // shipmentPaymentLink: {
+    //   type: String,
+    // },
     isDelivered: {
       type: Boolean,
       required: true,
@@ -75,7 +80,7 @@ const orderSchema = mongoose.Schema(
       type: String,
       type: Date,
     },
-    
+
     emailNotifier: {
       dispatchedAt: {
         type: String,

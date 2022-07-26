@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
+// import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Card,
+  Button,
+  // Form,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -15,10 +24,12 @@ import {
   orderPacked,
   orderDispatched,
   orderCancelled,
+  // orderShipmentPaymentLink,
   // orderStatus,
 } from "../actions/orderActions";
 import {
   ORDER_DELIVER_RESET,
+  // ORDER_SHIPMENTPAYMENT_RESET,
   ORDER_STATUS_RESET,
   ORDER_PACKED_RESET,
   ORDER_DISPATCHED_RESET,
@@ -35,6 +46,14 @@ const OrderScreen = ({ match, history }) => {
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+  // const shipmentPayment = useSelector((state) => state.shipmentPayment);
+  // const {
+  //   loading: loadingShipmentPayment,
+  //   success: successShipmentPayment,
+  // } = shipmentPayment;
+
+  // const [link, setLink] = useState("");
 
   const orderPack = useSelector((state) => state.orderPack);
   const { success: successPack, loading: loadingPack } = orderPack;
@@ -85,6 +104,7 @@ const OrderScreen = ({ match, history }) => {
     if (
       !order ||
       successDeliver ||
+      // successShipmentPayment ||
       successPack ||
       successDispatch ||
       successOrderCancel ||
@@ -96,6 +116,7 @@ const OrderScreen = ({ match, history }) => {
       dispatch({ type: ORDER_PACKED_RESET });
       dispatch({ type: ORDER_CANCEL_RESET });
       dispatch({ type: ORDER_DISPATCHED_RESET });
+      // dispatch({ type: ORDER_SHIPMENTPAYMENT_RESET });
       dispatch(getOrderDetails(orderId));
     } else {
       //
@@ -104,6 +125,7 @@ const OrderScreen = ({ match, history }) => {
     dispatch,
     orderId,
     successDeliver,
+    // successShipmentPayment,
     order,
     successPack,
     successDispatch,
@@ -119,6 +141,10 @@ const OrderScreen = ({ match, history }) => {
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
   };
+
+  // const shipmentPaymentHandler = () => {
+  //   dispatch(orderShipmentPaymentLink(order));
+  // };
 
   //MARK AS PACKED HANDLER
   const orderPackedHandler = () => {
@@ -182,32 +208,80 @@ const OrderScreen = ({ match, history }) => {
             </ListGroup.Item>
           </ListGroup>
           <ListGroup variant="flush">
+            {/* <ListGroup.Item>
+              <Form onSubmit={shipmentPaymentHandler}>
+                <Form.Group controlId="name">
+                  <Form.Label>Link</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Payment Link"
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="btn btn-block bg-black hover:bg-gray-800"
+                >
+                  Set Link
+                </Button>
+              </Form>
+            </ListGroup.Item> */}
             <ListGroup.Item>
               <h2 className="font-bold mb-2 text-[1.2em]">
                 Shipping & Order Information
               </h2>
               <p>
-                <strong>Name: </strong> {order.user.name}
+                <strong className="text-[1.2em]">Name: </strong>{" "}
+                {order.user.name}
               </p>
               <p>
-                <strong>Email: </strong>{" "}
-                <a href={`mailto:${order.user.email}`} className="mb-2">{order.user.email}</a>
+                <strong className="text-[1.2em]">Email: </strong>{" "}
+                <a href={`mailto:${order.user.email}`} className="mb-2">
+                  {order.user.email}
+                </a>
               </p>
 
+              <p>
+                <strong className="text-[1.2em]"> Shipping Address: </strong>
+              </p>
+
+              <div className="font-light mb-3">
+                <p>{order.shippingAddress.line1}</p>
+                <p>{order.shippingAddress.line2}</p>
+                <p>
+                  {order.shippingAddress.city}, {order.shippingAddress.state}
+                </p>
+                <p>
+                  {order.shippingAddress.postal_code},{" "}
+                  {order.shippingAddress.country}
+                </p>
+              </div>
+
               {order.isCancelled && (
-                <Message variant="danger" className="mt-2 mb-2">Order is Cancelled</Message>
+                <Message variant="danger" className="mt-2 mb-2">
+                  Order is Cancelled
+                </Message>
               )}
 
               {order.isPacked ? (
-                <Message variant="success" className="mt-2 mb-2">Packed On {order.packedAt}</Message>
+                <Message variant="success" className="mt-2 mb-2">
+                  Packed On {order.packedAt}
+                </Message>
               ) : (
                 !order.isCancelled && (
-                  <Message variant="danger" className="mt-2 mb-2">Order is Not Packed Yet</Message>
+                  <Message variant="danger" className="mt-2 mb-2">
+                    Order is Not Packed Yet
+                  </Message>
                 )
               )}
 
               {order.isDispatched ? (
-                <Message variant="success" className="mt-2 mb-2">Order Has Been Dispatched</Message>
+                <Message variant="success" className="mt-2 mb-2">
+                  Order Has Been Dispatched
+                </Message>
               ) : (
                 !order.isCancelled && (
                   <Message variant="danger" className="mt-2 mb-2">
@@ -222,7 +296,9 @@ const OrderScreen = ({ match, history }) => {
                 </Message>
               ) : (
                 !order.isCancelled && (
-                  <Message variant="danger" className="mt-2 mb-2">Order is Not Delivered Yet</Message>
+                  <Message variant="danger" className="mt-2 mb-2">
+                    Order is Not Delivered Yet
+                  </Message>
                 )
                 // <Message variant="danger">Not Delivered/Shipped </Message>
               )}
@@ -296,6 +372,7 @@ const OrderScreen = ({ match, history }) => {
               </ListGroup.Item>
 
               {loadingDeliver && <Loader />}
+              {/* {loadingShipmentPayment && <Loader />} */}
               {/* {loadingStatus && <Loader />} */}
 
               {!userInfo && (

@@ -32,6 +32,9 @@ import {
   ORDER_CANCEL_REQUEST,
   ORDER_CANCEL_SUCCESS,
   ORDER_CANCEL_FAIL,
+  // ORDER_SHIPMENTPAYMENT_REQUEST,
+  // ORDER_SHIPMENTPAYMENT_SUCCESS,
+  // ORDER_SHIPMENTPAYMENT_FAIL,
 } from '../constants/orderConstants'
 import { logout } from './userActions'
 
@@ -306,6 +309,48 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     })
   }
 }
+
+
+// export const orderShipmentPaymentLink = (order) => async (dispatch, getState) => {
+//   try {
+//     dispatch({
+//       type: ORDER_SHIPMENTPAYMENT_REQUEST,
+//     })
+
+//     const {
+//       userLogin: { userInfo },
+//     } = getState()
+
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${userInfo.token}`,
+//       },
+//     }
+
+//     const { data } = await axios.put(
+//       `/api/orders/${order._id}/shipmentpaymentlink`,
+//       {},
+//       config
+//     )
+
+//     dispatch({
+//       type: ORDER_SHIPMENTPAYMENT_SUCCESS,
+//       payload: data,
+//     })
+//   } catch (error) {
+//     const message =
+//       error.response && error.response.data.message
+//         ? error.response.data.message
+//         : error.message
+//     if (message === 'Not authorized, token failed') {
+//       dispatch(logout())
+//     }
+//     dispatch({
+//       type: ORDER_SHIPMENTPAYMENT_FAIL,
+//       payload: message,
+//     })
+//   }
+// }
 
 export const orderStatus = (order) => async (dispatch, getState) => {
   try {
