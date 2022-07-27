@@ -112,6 +112,9 @@ const Footer = () => {
                   {" "}
                   Etsy Shop{" "}
                 </a>
+                <Link to="/whatwecandoforyou" className="hover:text-slate-100">
+                  Solutions For You
+                </Link>
               </nav>
             </div>
           </div>

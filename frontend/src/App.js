@@ -32,6 +32,7 @@ import returnpolicy from "./pages/returnpolicy";
 import privacypolicy from "./pages/privacypolicy";
 import termsandconditions from "./pages/termsandconditions";
 import Support from "./screens/Support";
+import WWCDFY from "./screens/WWCDFY";
 
 // Sorting
 import ShopByCategoryScreen from "./screens/ShopByCategory";
@@ -108,6 +109,7 @@ const App = () => {
             component={ResetPasswordScreen}
             exact
           />
+          <Route path="/whatwecandoforyou" component={WWCDFY} exact />
         </Container>
         <Route path="/login" component={LoginScreen} />
         <Route path="/register" component={RegisterScreen} />
