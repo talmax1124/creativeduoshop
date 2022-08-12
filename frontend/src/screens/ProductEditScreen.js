@@ -36,6 +36,8 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
+  const [shortdescription, setShortdescription] = useState("");
+  const [type, setType] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
@@ -68,6 +70,8 @@ const ProductEditScreen = ({ match, history }) => {
         setCategory(product.category);
         setCountInStock(product.countInStock);
         setDescription(product.description);
+        setShortdescription(product.shortdescription);
+        setType(product.type);
         setAdditionalimageone(product.additionalimageone);
         setAdditionalimagetwo(product.additionalimagetwo);
         setAdditionalimagethree(product.additionalimagethree);
@@ -182,6 +186,8 @@ const ProductEditScreen = ({ match, history }) => {
           brand,
           category,
           description,
+          shortdescription,
+          type,
           countInStock,
           additionalimageone,
           additionalimagetwo,
@@ -308,6 +314,16 @@ const ProductEditScreen = ({ match, history }) => {
               </Form.Control>
             </Form.Group>
 
+            <Form.Group controlId="shortdescription">
+              <Form.Label>Short Description</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter Short Descriptor"
+                value={shortdescription}
+                onChange={(e) => setShortdescription(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
             <Form.Group controlId="countInStock">
               <Form.Label>Count In Stock</Form.Label>
               <Form.Control
@@ -414,6 +430,19 @@ const ProductEditScreen = ({ match, history }) => {
                 value={productImportantInformation}
                 onChange={(e) => setProductImportantInformation(e.target.value)}
               ></Form.Control> */}
+            </Form.Group>
+
+            <Form.Group controlId="type">
+              <Form.Label>Product Type</Form.Label>
+              <Form.Control
+                as="select"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option value="...">Select...</option>
+                <option value="Physical">Physical</option>
+                <option value="Digital">Digital</option>
+              </Form.Control>
             </Form.Group>
 
             <Button

@@ -29,6 +29,7 @@ router.post("/create-checkout-session", async (req, res) => {
         product_data: {
           name: item.name,
           images: [item.image],
+          description: item.shortdescription,
         },
         unit_amount: item.price * 100,
       },
@@ -110,13 +111,11 @@ router.post("/create-checkout-session", async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
+    // receipt_email: customer.email,
     allow_promotion_codes: true,
     consent_collection: {
       promotions: "auto",
     },
-    // automatic_tax: {
-    //   enabled: true,
-    // },
     success_url: `${process.env.CLIENT_URL}/success/{CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
   });

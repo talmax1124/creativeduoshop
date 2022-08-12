@@ -193,7 +193,49 @@ main {
   }
 }
 
+.rev-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.rev-item .card-img-top {
+  width: 60%;
+}
+
+.rev-item .left-rev-item {
+  width: 40%;
+}
+
+.rev-item .right-rev-item {
+  width: 55%;
+}
+
 @media (max-width: 999px) {
+  .rev-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .rev-item .card-img-top {
+    width: 15%;
+  }
+  .rev-item .left-rev-item {
+    width: 100%;
+  }
+  .rev-item .right-rev-item {
+    width: 100%;
+  }
   .reviews {
     display: -webkit-box;
     display: -ms-flexbox;

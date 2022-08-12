@@ -184,7 +184,37 @@ main {
   }
 }
 
+.rev-item {
+  display: flex;
+  justify-content: space-evenly;
+  .card-img-top {
+    width: 60%;
+  }
+  .left-rev-item {
+    width: 40%;
+  }
+
+  .right-rev-item {
+    width: 55%;
+  }
+}
+
 @media (max-width: 999px) {
+  .rev-item {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    .card-img-top {
+      width: 15%;
+    }
+    .left-rev-item {
+      width: 100%;
+    }
+
+    .right-rev-item {
+      width: 100%;
+    }
+  }
   .reviews {
     display: flex;
     width: 100%;

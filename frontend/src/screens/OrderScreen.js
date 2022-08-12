@@ -196,14 +196,8 @@ const OrderScreen = ({ match, history }) => {
                 to us! Below, you can find your order information.
               </p>
               <p className="text-red-900 font-medium">
-                NOTE: If you noticed, shipping options were not displayed. As
-                shipping costs are inflated by the shipping company, we are not
-                able to show the shipping options. To resolve this, in the
-                shipping section, there will be a link that states "Pay Shipping
-                Here" up to pay shipping cost of your order once we calculate
-                that price. We will send you an email for when that is ready.
-                After that, you will be able to see the tracking number in about
-                4hrs - 2 days.
+                NOTE: If your shipping price is higher than what you selected,
+                you will recieve a link to pay the additional amount. If you don't recieve an email, don't worry.
               </p>
             </ListGroup.Item>
           </ListGroup>

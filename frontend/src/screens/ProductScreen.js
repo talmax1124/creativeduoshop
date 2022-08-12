@@ -15,7 +15,7 @@ import Rating from "../components/Rating";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Meta from "../components/Meta";
-import moment from "moment";
+// import moment from "moment";
 import ProductDescription from "../components/ProductDescription";
 import ProductInformation from "../components/ProductInformation";
 
@@ -237,10 +237,10 @@ const ProductScreen = ({ history, match }) => {
                   </ListGroup.Item>
                 )}
 
-                <ListGroup.Item>
+                {/* <ListGroup.Item>
                   <span className="font-medium uppercase">Date Created:</span>{" "}
                   {moment(product.createdAt).format("L")}
-                </ListGroup.Item>
+                </ListGroup.Item> */}
 
                 <ListGroup.Item>
                   <span className="font-medium uppercase">Brand:</span>{" "}
@@ -250,6 +250,10 @@ const ProductScreen = ({ history, match }) => {
                 <ListGroup.Item>
                   <span className="font-medium uppercase">Category:</span>{" "}
                   <span className="font-light">{product.category}</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <span className="font-medium uppercase">Product Type:</span>{" "}
+                  <span className="font-light">{product.type}</span>
                 </ListGroup.Item>
               </ListGroup>
             </Col>
@@ -261,7 +265,7 @@ const ProductScreen = ({ history, match }) => {
                       <ListGroup.Item>
                         <Row>
                           <Col>Price:</Col>
-                          <Col>${product.price}</Col>
+                          <Col className="font-medium">${product.price}</Col>
                         </Row>
                       </ListGroup.Item>
                     </>
@@ -467,7 +471,11 @@ const ProductScreen = ({ history, match }) => {
                       ></iframe>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="primary" className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2" onClick={handleClose}>
+                      <Button
+                        variant="primary"
+                        className="btn btn-block bg-black hover:bg-gray-800 mt-2 mb-2"
+                        onClick={handleClose}
+                      >
                         Close
                       </Button>
                     </Modal.Footer>
@@ -539,41 +547,40 @@ const ProductScreen = ({ history, match }) => {
                 <div className="right-rev">
                   {product.reviews.map((review) => (
                     <>
-                      {review.profileImage && (
-                        <div
-                          className="col-sm-5"
-                          style={{ backgroundColor: "#868e96" }}
-                        >
-                          <img
-                            src={review.profileImage}
-                            className="card-img-top"
-                            alt="..."
-                          />
-                        </div>
-                      )}
                       <div
                         key={review._id}
-                        className="w-full revcard bg-slate-100 p-4 rounded"
+                        className="w-full revcard bg-slate-100 p-4 rounded rev-item"
                       >
-                        <strong className="font-bold mb-1 text-[1.1em]">
-                          {review.name}
-                        </strong>
-                        <Rating value={review.rating} className="mb-1" />
-                        <p className="mb-1">
-                          {review.createdAt.substring(0, 10)}
-                        </p>
-                        <p className="mt-2 mb-1 font-medium text-[1.15em]">
-                          {review.comment}
-                        </p>
-                        {userInfo.isAdmin && (
-                          <Button
-                            className="btn w-2/4 bg-red-800 btn-block"
-                            onClick={deleteReviewHandler(review._id)}
-                            variant="danger"
-                          >
-                            <i className="fas fa-trash"></i> Delete Comment
-                          </Button>
+                        {review.profileImage && (
+                          <div className="left-rev-item">
+                            <img
+                              src={review.profileImage}
+                              className="card-img-top"
+                              alt="..."
+                            />
+                          </div>
                         )}
+                        <div className="right-rev-item">
+                          <strong className="font-bold mb-1 text-[1.1em]">
+                            {review.name}
+                          </strong>
+                          <Rating value={review.rating} className="mb-1" />
+                          <p className="mb-1">
+                            {review.createdAt.substring(0, 10)}
+                          </p>
+                          <p className="mt-2 mb-1 font-medium text-[1.15em]">
+                            {review.comment}
+                          </p>
+                          {userInfo.isAdmin && (
+                            <Button
+                              className="btn w-full bg-red-800 btn-block"
+                              onClick={deleteReviewHandler(review._id)}
+                              variant="danger"
+                            >
+                              <i className="fas fa-trash"></i> Delete Comment
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </>
                   ))}

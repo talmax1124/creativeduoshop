@@ -116,6 +116,8 @@ const createProduct = asyncHandler(async (req, res) => {
     countInStock: 20,
     numReviews: 0,
     description: "Sample description",
+    shortdescription: "Sample description",
+    type: "Physical",
     // colors: ["Sample color"],
   });
 
@@ -131,6 +133,8 @@ const updateProduct = asyncHandler(async (req, res) => {
     name,
     price,
     description,
+    shortdescription,
+    type,
     image,
     brand,
     category,
@@ -150,6 +154,8 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.name = name;
     product.price = price;
     product.description = description;
+    product.shortdescription = shortdescription;
+    product.type = type;
     product.image = image;
     product.brand = brand;
     product.category = category;
@@ -243,7 +249,6 @@ const getTopProducts = asyncHandler(async (req, res) => {
     .limit(8);
   res.json(products);
 });
-
 
 export {
   getProducts,

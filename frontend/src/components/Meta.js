@@ -12,7 +12,7 @@ const Meta = ({ title, description, keywords }) => {
 }
 
 Meta.defaultProps = {
-  title: 'Welcome To Creative Duo',
+  title: 'Welcome To Creative Duo LLC | Small Business',
   description: 'We sell custom made products!',
   keywords: 'custom, handmade, small business',
 }
