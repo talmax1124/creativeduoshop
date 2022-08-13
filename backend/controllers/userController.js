@@ -63,7 +63,7 @@ const verificationLink = asyncHandler(async (req, res) => {
   var data = {
     from: "Creative Duo Shopping <creativeduo2020@gmail.com>",
     to: email,
-    subject: "Account Activation Link",
+    subject: "Account Activation Link ~ creativeduo.net",
 
     html: `
  
@@ -214,7 +214,7 @@ const verificationLink = asyncHandler(async (req, res) => {
       // console.log('Email sent: ' + info.response)
       res.status(201).json({
         response:
-          "A verification email has been sent with a link to finish registration and verification. If you do not see the email in your inbox, it may be in the spam folder. This email may take about a minute to arrive",
+          "A verification email has been sent with a link to finish registration and verification. If you do not see the email in your inbox, it may be in the spam folder. This email may take about a minute to arrive. Look for the email from creativeduoshop.live or creativeduo2020@gmail.com",
       });
     }
   });

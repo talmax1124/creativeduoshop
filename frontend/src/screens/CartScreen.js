@@ -116,10 +116,21 @@ const CartScreen = ({ match, location, history }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               {userInfo ? (
-                <PayButton
-                  disabled={cartItems.length === 0}
-                  cartItems={cart.cartItems}
-                />
+                <>
+                  {cartItems.length > 0 ? (
+                    <PayButton cartItems={cart.cartItems} />
+                  ) : (
+                    <Link
+                      to="/"
+                      className="no-underline"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Button className="btn btn-block bg-red-600 hover:bg-red-700 no-underline">
+                        No Products Added
+                      </Button>
+                    </Link>
+                  )}
+                </>
               ) : (
                 <Link
                   to="/login"

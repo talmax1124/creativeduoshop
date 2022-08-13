@@ -100,7 +100,7 @@ const ProfileScreen = ({ location, history }) => {
       <Row className="cta-prof-head">
         <Col
           md={3}
-          className="bg-slate-900 flex justify-center items-center text-white flex-col cta-prof"
+          className="bg-slate-900 flex justify-center items-center text-white flex-col cta-prof rounded-md"
         >
           {user.profileImage && (
             <>
@@ -189,7 +189,7 @@ const ProfileScreen = ({ location, history }) => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="profileImage">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>Profile Picture</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Profile Image"
