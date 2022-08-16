@@ -6,44 +6,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 // import { updateStock } from "../actions/productActions";
+import { updateStock } from "../actions/productActions";
 
 const StripeSuccess = ({ match, history }) => {
   const dispatch = useDispatch();
   const { session_id } = useParams();
   const cart = useSelector((state) => state.cart);
-  // const orderId = match.params.id;
+  // consts orderId = match.params.id;
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success } = orderCreate;
 
-  // const adjustStock = () => {
-  //   let adjustedStock = [];
-  //   let adjustedState = [];
+  const productDetails = useSelector((state) => state.productDetails);
+  const { products } = productDetails;
 
-  //   cart.cartItems.map((item) => {
-  //     const item_id = item.product;
-  //     const updatedQty = item.countInStock - item.qty;
-  //     adjustedStock.push({ item_id, updatedQty });
-  //     return adjustedStock;
-  //   });
+  const adjustStock = () => {
+    let adjustedStock = [];
+    let adjustedState = [];
 
-  //   adjustedStock.forEach((item) => {
-  //     products.map((product) => {
-  //       if (item.item_id === product._id) {
-  //         product.countInStock = item.updatedQty;
-  //         adjustedState.push({
-  //           _id: product._id,
-  //           countInStock: product.countInStock,
-  //         });
-  //       }
-  //     });
-  //     return adjustedState;
-  //   });
+    cart.cartItems.map((item) => {
+      const item_id = item.product;
+      const updatedQty = item.countInStock - item.qty;
+      adjustedStock.push({ item_id, updatedQty });
+      return adjustedStock;
+    });
 
-  //   adjustedState.forEach((item) => {
-  //     dispatch(updateStock({ _id: item._id, countInStock: item.countInStock }));
-  //   });
-  // };
+    adjustedStock.forEach((item)=>{
+      // eslint-disable-next-line
+      products.map((product)=>{
+        if (item.item_id === product._id) {
+          product.countInStock = item.updatedQty;
+          adjustedState.push({_id: product._id, countInStock: product.countInStock});
+        }
+      });
+      return adjustedState;
+    });
+
+    adjustedState.forEach((item) => {
+      dispatch(updateStock({ _id: item._id, countInStock: item.countInStock }));
+    });
+  };
 
   useEffect(() => {
     // call the api to fetch session information and session_id with session_id
@@ -56,6 +58,7 @@ const StripeSuccess = ({ match, history }) => {
       history.push(`/order/${order._id}`);
       dispatch({ type: USER_DETAILS_RESET });
       dispatch({ type: ORDER_CREATE_RESET });
+      adjustStock();
     }
     // eslint-disable-next-line
   }, [history, success]);
