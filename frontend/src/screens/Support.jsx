@@ -8,7 +8,7 @@ const Support = () => {
   return (
     <>
       <div className="container">
-        <h1 class=" text-black text-[3em] font-medium tracking-tight leading-none mb-1 ">
+        <h1 className=" text-black text-[3em] font-medium tracking-tight leading-none mb-1 ">
           Customer Support
         </h1>
         <hr className="mb-3" />

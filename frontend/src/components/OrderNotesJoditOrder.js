@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 
  const OrderNotesJoditOrder = ({ order }) => {
    useEffect(() => {
-     const orderNotes = document.querySelector('.orderNotes')
-     if (orderNotes) {
-        orderNotes.innerHTML = order.orderNotes
+     const ordernotes = document.querySelector('.orderNotes')
+     if (ordernotes) {
+        ordernotes.innerHTML = order.ordernotes
        let images = document.querySelectorAll('.orderNotes img')
        if (images) {
          images.forEach((item) => {

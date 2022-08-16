@@ -29,6 +29,7 @@ import {
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 // import { HeartOutlined } from "@ant-design/icons/HeartOutlined";
 import { deleteProduct } from "../actions/productActions";
+import { addToCart } from "../actions/cartActions";
 
 // import LightGallery from "lightgallery/react";
 
@@ -46,6 +47,7 @@ const ProductScreen = ({ history, match }) => {
   const [comment, setComment] = useState("");
 
   const dispatch = useDispatch();
+  const id = match.params.id;
 
   // const productId = match.params.id;
 
@@ -89,6 +91,7 @@ const ProductScreen = ({ history, match }) => {
   }, [successProductReviewDelete]);
 
   const addToCartHandler = () => {
+    dispatch(addToCart(id, qty));
     history.push(`/cart/${match.params.id}?qty=${qty}`);
   };
 
@@ -489,7 +492,7 @@ const ProductScreen = ({ history, match }) => {
             <Col md={6}>
               <h2 className="font-medium font-sans text-[2em] mt-2">Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
-              <div class="flex mt-3 reviews">
+              <div className="flex mt-3 reviews">
                 <div className="left-rev">
                   <h2 className="font-semibold mb-3">Write a Product Review</h2>
                   {loadingProductReview && <Loader />}

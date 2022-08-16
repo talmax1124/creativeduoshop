@@ -5,8 +5,7 @@ import { USER_DETAILS_RESET } from "../constants/userConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
-// import { payOrder } from "../actions/orderActions";
+// import { updateStock } from "../actions/productActions";
 
 const StripeSuccess = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -17,13 +16,38 @@ const StripeSuccess = ({ match, history }) => {
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success } = orderCreate;
 
+  // const adjustStock = () => {
+  //   let adjustedStock = [];
+  //   let adjustedState = [];
+
+  //   cart.cartItems.map((item) => {
+  //     const item_id = item.product;
+  //     const updatedQty = item.countInStock - item.qty;
+  //     adjustedStock.push({ item_id, updatedQty });
+  //     return adjustedStock;
+  //   });
+
+  //   adjustedStock.forEach((item) => {
+  //     products.map((product) => {
+  //       if (item.item_id === product._id) {
+  //         product.countInStock = item.updatedQty;
+  //         adjustedState.push({
+  //           _id: product._id,
+  //           countInStock: product.countInStock,
+  //         });
+  //       }
+  //     });
+  //     return adjustedState;
+  //   });
+
+  //   adjustedState.forEach((item) => {
+  //     dispatch(updateStock({ _id: item._id, countInStock: item.countInStock }));
+  //   });
+  // };
+
   useEffect(() => {
     // call the api to fetch session information and session_id with session_id
     fetchSessionInfo();
-    // update the totalprice
-    // call placeOrderHandler
-
-    // placeOrderHandler();
     // eslint-disable-next-line
   }, []);
 
@@ -45,36 +69,8 @@ const StripeSuccess = ({ match, history }) => {
         data.session.amount_total,
         data.session.customer_details.address
       );
-      // placeOrderHandler(
-      //   data.session.amount_total
-      //   // data.session.customer_details.address.line1,
-      //   // data.session.customer_details.address.line2,
-      //   // data.session.customer_details.address.city,
-      //   // data.session.customer_details.address.state,
-      //   // data.session.customer_details.address.postal_code,
-      //   // data.session.customer_details.address.country
-      // );
-      // console.log(
-      //   data.session.customer_details.address.line1,
-      //   data.session.customer_details.address.line2,
-      //   data.session.customer_details.address.city,
-      //   data.session.customer_details.address.state,
-      //   data.session.customer_details.address.postal_code,
-      //   data.session.customer_details.address.country
-      // );
-      // console.log(data.session.customer_details.address.line1);
-      // console.log(data.session.customer_details.address.line2);
-      // console.log(data.session.customer_details.address.city);
-      // console.log(data.session.customer_details.address.postal_code);
-      // console.log(data.session.customer_details.address.state);
-      // console.log(data.session.customer_details.address.country);
     }
   };
-
-  // const successPaymentHandler = (paymentResult) => {
-  //   console.log(paymentResult);
-  //   dispatch(payOrder(orderId, paymentResult));
-  // };
 
   const placeOrderHandler = (totalAmount, Address) => {
     dispatch(
@@ -85,6 +81,7 @@ const StripeSuccess = ({ match, history }) => {
         taxPrice: cart.taxPrice,
         totalPrice: totalAmount / 100,
         shippingAddress: Address,
+        // ordernotes: cart.ordernotes,
       })
     );
   };

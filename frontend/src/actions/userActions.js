@@ -106,6 +106,7 @@ export const logout = () => {
         await axios.get("/api/auth/logout");
       }
 
+      localStorage.clear();
       localStorage.removeItem("userInfo");
       localStorage.removeItem("cartItems");
       localStorage.removeItem("shippingAddress");
@@ -236,24 +237,24 @@ export const forgotPassword = (email) => async (dispatch) => {
   try {
     dispatch({
       type: USER_FORGOT_PASSWORD_MAIL_REQUEST,
-    })
+    });
 
     const config = {
       headers: {
-        'Content-type': 'application/json',
+        "Content-type": "application/json",
       },
-    }
+    };
 
     const { data } = await axios.put(
-      '/api/users/forgot-password',
+      "/api/users/forgot-password",
       { email },
       config
-    )
+    );
 
     dispatch({
       type: USER_FORGOT_PASSWORD_MAIL_SUCCESS,
       payload: data.message,
-    })
+    });
   } catch (error) {
     dispatch({
       type: USER_FORGOT_PASSWORD_MAIL_FAIL,
@@ -261,32 +262,32 @@ export const forgotPassword = (email) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
-    })
+    });
   }
-}
+};
 
 export const resetPassword = (password, token) => async (dispatch) => {
   try {
     dispatch({
       type: USER_RESET_PASSWORD_REQUEST,
-    })
+    });
 
     const config = {
       headers: {
-        'Content-type': 'application/json',
+        "Content-type": "application/json",
       },
-    }
+    };
 
     const { data } = await axios.put(
-      '/api/users/reset-password',
+      "/api/users/reset-password",
       { newPass: password, resetLink: token },
       config
-    )
+    );
 
     dispatch({
       type: USER_RESET_PASSWORD_SUCCESS,
       payload: data.message,
-    })
+    });
   } catch (error) {
     dispatch({
       type: USER_RESET_PASSWORD_FAIL,
@@ -294,9 +295,9 @@ export const resetPassword = (password, token) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
-    })
+    });
   }
-}
+};
 
 export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {

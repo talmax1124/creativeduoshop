@@ -22,7 +22,7 @@ const orderSchema = mongoose.Schema(
       },
     ],
 
-    orderNotes: {
+    ordernotes: {
       type: String,
     },
 

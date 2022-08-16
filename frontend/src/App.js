@@ -10,6 +10,7 @@ import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import OrderNotes from "./screens/OrderNotes";
 
 // User Related Components / Screens
 
@@ -52,6 +53,7 @@ const App = () => {
         <Container>
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/order/:id" component={OrderScreen} />
+          <Route path="/ordernotes" component={OrderNotes} />
           <Route path="/forgotpassword" component={forgotPassword} />
 
           <Route path="/product/:id" component={ProductScreen} />

@@ -1,13 +1,16 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
+import Mailgun from "mailgun-js";
 
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
+  // let { email } = req.body;
+
   const {
     orderItems,
-    orderNotes,
+    ordernotes,
     itemsPrice,
     totalPrice,
     shippingAddress,
@@ -21,7 +24,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const order = new Order({
       orderItems,
       user: req.user._id,
-      orderNotes,
+      ordernotes,
       itemsPrice,
       totalPrice,
       shippingAddress,
@@ -31,16 +34,60 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     res.status(201).json(createdOrder);
 
-    //UPDATE COUNT IN STOCK
-    // ==========================================================
+    //   var mailgun = new Mailgun({
+    //     apiKey: process.env.MailGunAPI,
+    //     domain: process.env.MailGunDomain,
+    //   });
+    //   var data = {
+    //     from: "Creative Duo Shopping <creativeduo2020@gmail.com>",
+    //     to: email,
+    //     subject: "Thanks for placing an order with us",
 
-    for (const index in order.orderItems) {
-      const item = order.orderItems[index];
-      const product = await Product.findById(item.product);
-      product.countInStock -= item.qty;
-      await product.save();
-    }
-    // ========================================================
+    //     html: `
+
+    //     <!DOCTYPE html>
+    // <html lang="en">
+    // <head>
+    //   <meta charset="UTF-8">
+    //   <meta name="viewport" content="width=device-width, initial-scale=">
+    // </head>
+    // <body>
+    //  <h1> Hello, Thanks for placing an order with us! </h1>
+    // </body>
+    // </html>
+    //     `,
+    //   };
+    //   setTimeout(() => {
+    //     mailgun.messages().send(data, function(error, body) {
+    //       if (error) {
+    //         res.status(400);
+    //         throw new Error(error);
+    //       } else {
+    //         // console.log('Email sent: ' + info.response)
+    //         res.status(201).json({
+    //           response: "Order Email Sent",
+    //         });
+    //       }
+    //     });
+    //   }, 1000);
+    //   // mailgun.messages().send(data, function(error, info) {
+    //   //   if (error) {
+    //   //     res.status(400);
+    //   //     throw new Error(error);
+    //   //   } else {
+    //   //     // console.log('Email sent: ' + info.response)
+    //   //     res.status(201).json({
+    //   //       response: "Order Email Sent",
+    //   //     });
+    //   //   }
+    //   // });
+
+    // for (const index in order.orderItems) {
+    //   const item = order.orderItems[index];
+    //   const product = await Product.findById(item.product);
+    //   product.countInStock -= item.qty;
+    //   await product.save();
+    // }
   }
 });
 

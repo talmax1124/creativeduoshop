@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +13,8 @@ import {
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import PayButton from "../components/pay";
+import JoditEditor from "jodit-react";
+import { saveordernotes } from "../actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -27,6 +29,15 @@ const CartScreen = ({ match, location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const [ordernotes, setordernotes] = useState("");
+
+  const editor = useRef(null);
+  const config = {
+    readonly: false,
+    placeholder: "Write Order Notes",
+    askBeforePasteHTML: false,
+  };
+
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -35,6 +46,11 @@ const CartScreen = ({ match, location, history }) => {
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(saveordernotes(ordernotes));
   };
 
   return (
@@ -96,6 +112,23 @@ const CartScreen = ({ match, location, history }) => {
                 </Row>
               </ListGroup.Item>
             ))}
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="orderNotes">
+                <Form.Label>Requests? Notes For The Order?</Form.Label>
+                <JoditEditor
+                  id="description"
+                  ref={editor}
+                  value={ordernotes}
+                  config={config}
+                  tabIndex={1}
+                  onBlur={(e) => setordernotes(e)}
+                />
+              </Form.Group>
+
+              <Button type="submit" variant="primary" className="bg-gray-500">
+                Save Order Notes
+              </Button>
+            </Form>
           </ListGroup>
         )}
       </Col>
@@ -120,6 +153,11 @@ const CartScreen = ({ match, location, history }) => {
                   {cartItems.length > 0 ? (
                     <PayButton cartItems={cart.cartItems} />
                   ) : (
+                    // <Link to="/ordernotes">
+                    //   <Button className="btn btn-block bg-black hover:bg-gray-800 no-underline">
+                    //     Proceed To Checkout
+                    //   </Button>
+                    // </Link>
                     <Link
                       to="/"
                       className="no-underline"

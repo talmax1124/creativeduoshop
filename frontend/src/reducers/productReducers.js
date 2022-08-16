@@ -33,6 +33,10 @@ import {
   PRODUCT_LATEST_REQUEST,
   PRODUCT_LATEST_SUCCESS,
   PRODUCT_LATEST_FAIL,
+  PRODUCT_STOCK_UPDATE_FAIL,
+  PRODUCT_STOCK_UPDATE_SUCCESS,
+  PRODUCT_STOCK_UPDATE_REQUEST,
+  PRODUCT_STOCK_UPDATE_RESET,
 } from "../constants/productConstants";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -56,6 +60,21 @@ export const productListReducer = (state = { products: [] }, action) => {
       };
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const stockUpdateReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_STOCK_UPDATE_REQUEST:
+      return { loading: true };
+    case PRODUCT_STOCK_UPDATE_SUCCESS:
+      return { loading: false, product: action.payload, success: true };
+    case PRODUCT_STOCK_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case PRODUCT_STOCK_UPDATE_RESET:
+      return { product: {} };
     default:
       return state;
   }

@@ -3,16 +3,22 @@ import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import Mailgun from "mailgun-js";
+import Cookies from "cookies";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
+  const cookies = new Cookies(req, res);
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    cookies.set("id", String(user._id), {
+      maxAge: 1000 * 60 * 60 * 6,
+      sameSite: "strict",
+    });
     res.json({
       _id: user._id,
       name: user.name,
@@ -206,7 +212,7 @@ const verificationLink = asyncHandler(async (req, res) => {
     `,
   };
 
-  mailgun.messages().send(data, function(error, info) {
+  mailgun.messages().send(data, function (error, info) {
     if (error) {
       res.status(400);
       throw new Error(error);
@@ -224,10 +230,12 @@ const verificationLink = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
+  const cookies = new Cookies(req, res);
   const { token } = req.body;
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET),
-      function(err, decoded) {
+      function (err, decoded) {
         if (err) {
           // console.log('JWT verify error')
           return res.status(401).json({
@@ -235,6 +243,11 @@ const registerUser = asyncHandler(async (req, res) => {
           });
         }
       };
+
+    if (userExists) {
+      res.status(400);
+      throw new Error("User already exists");
+    }
 
     const { name, email, password, phone, profileImage } = jwt.decode(token);
 
@@ -261,6 +274,25 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new Error("Invalid user data");
     }
   }
+});
+
+// @desc    Clear Refresh Cookie
+// @route   POST /api/users/logout
+// @access  Private
+// @called  logout() -> userActions -> userRoutes
+export const clearRefreshToken = asyncHandler(async (req, res) => {
+	const cookies = new Cookies(req, res);
+
+	if (req.cookies.id) {
+		const user = await User.findById(req.cookies.id).select('-password');
+		if (user) {
+			cookies.set('id', String(user._id), { maxAge: -1, sameSite: 'strict' });
+			res.json({});
+			res.end();
+		}
+	} else {
+		res.json({});
+	}
 });
 
 // @route   GET /api/users/profile
@@ -456,11 +488,11 @@ const forgotPassword = (req, res) => {
       `,
     };
 
-    return user.updateOne({ resetLink: token }, function(err, success) {
+    return user.updateOne({ resetLink: token }, function (err, success) {
       if (err) {
         return res.status(400).json({ error: "Reset password link error" });
       } else {
-        mg.messages().send(data, function(error, body) {
+        mg.messages().send(data, function (error, body) {
           if (error) {
             return res.json({ error: error.message });
           }
@@ -481,34 +513,42 @@ const forgotPassword = (req, res) => {
 const resetPassword = (req, res) => {
   const { resetLink, newPass } = req.body;
   if (resetLink) {
-    jwt.verify(resetLink, process.env.JWT_SECRET, function(error, decodedData) {
-      if (error) {
-        return res.status(401).json({ message: "Token incorrect or expired" });
-      }
-      User.findOne({ resetLink }, function(err, user) {
-        if (err || !user) {
+    jwt.verify(
+      resetLink,
+      process.env.JWT_SECRET,
+      function (error, decodedData) {
+        if (error) {
           return res
-            .status(400)
+            .status(401)
             .json({ message: "Token incorrect or expired" });
         }
-        const obj = {
-          password: newPass,
-          resetLink: "",
-        };
-
-        user = Object.assign(user, obj);
-
-        user.save((err, result) => {
-          if (err) {
+        User.findOne({ resetLink }, function (err, user) {
+          if (err || !user) {
             return res
-              .status(401)
-              .json({ error: "Token incorrect or expired" });
-          } else {
-            res.status(200).json({ message: "Your password has been changed" });
+              .status(400)
+              .json({ message: "Token incorrect or expired" });
           }
+          const obj = {
+            password: newPass,
+            resetLink: "",
+          };
+
+          user = Object.assign(user, obj);
+
+          user.save((err, result) => {
+            if (err) {
+              return res
+                .status(401)
+                .json({ error: "Token incorrect or expired" });
+            } else {
+              res
+                .status(200)
+                .json({ message: "Your password has been changed" });
+            }
+          });
         });
-      });
-    });
+      }
+    );
   } else {
     return res.status(401).json({ error: "Authentication Error" });
   }
